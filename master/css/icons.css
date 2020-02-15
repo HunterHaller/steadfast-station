@@ -1,0 +1,65 @@
+/*Icon things*/
+#termIcon {
+  padding-top: 600px;
+  padding-left: 50px;
+  position: absolute;
+  z-index: -1;
+  text-align: center;
+}
+
+#termImg {
+  padding-bottom: 0px;
+  margin-bottom: 0px;
+  height: 60px;
+}
+
+#termIconText {
+  padding: 0px;
+  margin: 0px;
+  color: white;
+  font-size: 16pt;
+}
+
+#musicIcon {
+  left: 100px;
+  padding-top: 600px;
+  padding-left: 50px;
+  position: absolute;
+  z-index: -1;
+  text-align: center;
+}
+
+#musicImg {
+  padding-bottom: 0px;
+  margin-bottom: 0px;
+  height: 60px;
+}
+
+#musicIconText {
+  padding: 0px;
+  margin: 0px;
+  color: white;
+  font-size: 16pt;
+}
+
+#textIcon {
+  left: 200px;
+  padding-top: 600px;
+  padding-left: 50px;
+  position: absolute;
+  z-index: -1;
+  text-align: center;
+}
+
+#textImg {
+  padding-bottom: 0px;
+  margin-bottom: 0px;
+  height: 60px;
+}
+
+#textIconText {
+  padding: 0px;
+  margin: 0px;
+  color: white;
+  font-size: 16pt;
+}

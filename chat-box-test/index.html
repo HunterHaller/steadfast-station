@@ -1,0 +1,73 @@
+<!DOCTYPE HTML>
+
+<html lang="en">
+
+<head>
+  <!--Usuals-->
+  <meta charset="utf-8">
+
+  <!--Custom-->
+  <title>Chat Test</title>
+  <link href="./style.css" rel="stylesheet" type="text/css" />
+
+  <!--JQuery Terminal-->
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script src="https://unpkg.com/jquery.terminal@2.x.x/js/jquery.terminal.min.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/jquery.terminal@2.x.x/css/jquery.terminal.min.css" />
+</head>
+
+<body class="crt">
+
+  <div id="topBar">
+    <span class="bar" id="usrID">USR: Tech535</span>
+    <span class="bar" id="time"></span>
+    <span class="bar" id="date">2-17-2146</span>
+    <span class="bar">
+      <img src="img/net2.png" id="netIcon">
+    </span>
+  </div>
+
+  <div id="termWindow" class="window">
+    <div id="termWindowHeader" class="top">
+      <span id="close" class="dot" onclick="closeWindow(termWindow)"></span>
+      <span id="banner">TRMNL</span>
+    </div>
+
+    <div class="terminalContent" id="terminal"></div>
+  </div>
+
+  <div id="playerWindow" class="window">
+    <div id="playerWindowHeader" class="top">
+      <span id="close" class="dot" onclick="closeWindow(playerWindow)"></span>
+      <span id="banner">MSC-PLYR</span>
+    </div>
+    <div class='textContent' id="playerContent">
+      <p>This is another window!</p>
+      <p>Maybe one day, it will play music!</p>
+    </div>
+  </div>
+
+  <div id="chatBox">
+    <div id="chatTop">
+      <span id="chatTopText">AI COMMS</span>
+    </div>
+    <div id="chatBody"></div>
+    <div id="chatBottom"></div>
+  </div>
+
+  <div id="termIcon" ondblclick="openWindow(termWindow)">
+    <img src="img/trnml.png" id="termImg">
+    <br>
+    <strong id="termIconText">TRMNL</strong>
+  </div>
+
+  <div id="musicIcon" ondblclick="openWindow(playerWindow)">
+    <img src="img/msc.png" id="musicImg">
+    <br>
+    <strong id="musicIconText">MSC-PLYR</strong>
+  </div>
+
+  <script src="./script.js"></script>
+</body>
+
+</html>

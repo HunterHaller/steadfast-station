@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Terminal Test</title>
+  <link href="./style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body class="crt">
+
+  <div id="topBar">
+    <span class="bar" id="usrID">USR: Tech535</span>
+    <span class="bar" id="time"></span>
+    <span class="bar" id="date">2-17-2146</span>
+    <span class="bar">
+      <img src="img/net4.png" id="netIcon">
+    </span>
+  </div>
+
+  <div id="window" class="container">
+    <div id="windowHeader" class="top">
+      <span id="close" class="dot" onclick="closeWindow()"></span>
+      <span id="banner">TRMNL</span>
+    </div>
+
+    <div class="content">
+      <span class="terminal">> </span>
+      <span class="terminal"><input type="text" id="terminal-input"></span>
+    </div>
+  </div>
+
+  <div id="icon" ondblclick="openWindow()">
+    <img src="img/trnml.png" id="paperIcon">
+    <br>
+    <strong id="iconText">TRMNL</strong>
+  </div>
+
+
+  <script src="./script.js"></script>
+</body>
+
+</html>

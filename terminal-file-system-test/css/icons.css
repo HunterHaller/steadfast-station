@@ -1,0 +1,22 @@
+/*Icon things*/
+#termIcon {
+  padding-top: 600px;
+  padding-left: 50px;
+  position: absolute;
+  z-index: -1;
+  text-align: center;
+}
+
+#paperIcon {
+  padding-bottom: 0px;
+  margin-bottom: 0px;
+  height: 60px;
+}
+
+#iconText {
+  padding: 0px;
+  margin: 0px;
+  color: white;
+  padding-left: 3px;
+  font-size: 16pt;
+}

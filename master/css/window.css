@@ -1,0 +1,80 @@
+/*Window things*/
+.dot {
+  height: 12px;
+  width: 12px;
+  background-color: white;
+  border-radius: 50%;
+  margin-left: 5px;
+  display: inline-block;
+  cursor: auto;
+}
+
+.top {
+  padding: 8px;
+  background: darkgray;
+  cursor: move;
+  overflow: hidden;
+}
+
+.terminalContent {
+  padding: 10px;
+  background-color: black;
+  color: white;
+  font-size: 30pt;
+}
+
+.textContent {
+  padding: 10px;
+  background-color: white;
+  color: black;
+  font-size: 20pt;
+}
+
+.window {
+  position: absolute;
+  display: block;
+  border: 5px solid darkgray;
+  box-shadow: 6px 6px 15px;
+}
+
+#termWindow {
+  left: 38px;
+  top: 70px;
+}
+
+#playerWindow {
+  left: 638px;
+  top: 138px;
+}
+
+#textWindow {
+  left: 1100px;
+  top: 50px;
+}
+
+#banner {
+  padding-left: 9px;
+  font-size: 15pt;
+}
+
+#playerContent {
+  height: 160px;
+  width: 300px;
+  font-size: 50pt;
+  background-color: white;
+  overflow: auto;
+}
+
+#textWindowContent {
+  width: 300px;
+  height: 600px;
+  overflow: scroll;
+}
+
+.terminal {
+  height: 400px;
+  width: 550px;
+  --color: lightblue;
+  --background: black;
+  --size: 1.2;
+}
