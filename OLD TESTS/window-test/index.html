@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Window Test</title>
+  <link href="./style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body class="crt">
+
+  <div id="topBar">
+    <span class="bar" id="usrID">USR: Tech535</span>
+    <span class="bar" id="time"></span>
+    <span class="bar" id="date">2-17-2146</span>
+    <span class="bar">
+      <img src="img/net2.png" id="netIcon">
+    </span>
+  </div>
+
+  <div id="window" class="container" class="crt">
+
+    <div id="windowHeader" class="top" class="crt">
+      <span id="close" class="dot" onclick="closeWindow()"></span>
+      <span id="banner">WNDW</span>
+    </div>
+
+    <div class="content" class="crt">
+      <h3>Browser Window</h3>
+      <p>it's a thing!</p>
+    </div>
+
+  </div>
+
+  <div id="icon" ondblclick="openWindow()">
+    <img src="img/trnml.png" id="paperIcon">
+    <br>
+    <strong id="iconText">WNDW</strong>
+  </div>
+
+
+  <script src="./script.js"></script>
+</body>
+
+</html>
