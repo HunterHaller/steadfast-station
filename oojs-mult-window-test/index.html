@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+
+<html lang="en">
+
+<head>
+  <!--Usuals-->
+  <meta charset="utf-8">
+
+  <!--Custom-->
+  <title>OOJS Multiple Window Test</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css" />
+  <link href="./css/icons.css" rel="stylesheet" type="text/css" />
+  <link href="./css/bar.css" rel="stylesheet" type="text/css" />
+  <link href="./css/window.css" rel="stylesheet" type="text/css" />
+
+
+  <!--JQuery Terminal-->
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script src="https://unpkg.com/jquery.terminal@2.x.x/js/jquery.terminal.min.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/jquery.terminal@2.x.x/css/jquery.terminal.min.css" />
+</head>
+
+<body class="crt" onload="makeIcon(termIcon, termWindow); makeIcon(playerIcon, playerWindow); makeWindow(termWindow); termWindow.startTerminal()">
+
+  <div id="topBar" class="noselect">
+    <span class="bar" id="usrID">USR: Tech535</span>
+    <span class="bar" id="time"></span>
+    <span class="bar" id="date">2-17-2146</span>
+    <span class="bar">
+      <img src="img/net2.png" id="netIcon">
+    </span>
+  </div>
+
+  <script src="./js/script.js"></script>
+  <script src="./js/classes.js"></script>
+  <script src="./js/makers.js"></script>
+  <script src="./js/icons-and-windows.js"></script>
+</body>
+
+</html>

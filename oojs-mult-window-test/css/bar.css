@@ -1,0 +1,30 @@
+/*Top bar things*/
+#topBar {
+  background-color: white;
+  height: 25px;
+  font-size: 16pt;
+}
+
+.bar {
+  line-height: 25px;
+}
+
+#usrID {
+  padding-left: 10px;
+}
+
+#netIcon {
+  float: right;
+  height: 25px;
+  padding-right: 10px;
+}
+
+#time {
+  float: right;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+#date {
+  float: right;
+}

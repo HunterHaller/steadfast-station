@@ -1,0 +1,55 @@
+/*Window things*/
+.dot {
+  height: 12px;
+  width: 12px;
+  background-color: white;
+  border-radius: 50%;
+  margin-left: 5px;
+  display: inline-block;
+  cursor: auto;
+}
+
+.windowHeader {
+  padding: 8px;
+  background: darkgray;
+  cursor: move;
+}
+
+#termWindowBody {
+  padding: 10px;
+  background-color: black;
+  color: white;
+  font-size: 30pt;
+}
+
+.content {
+  padding: 10px;
+  background-color: white;
+  color: black;
+  font-size: 30pt;
+  overflow: auto;
+}
+
+#termWindowBody {
+  overflow: auto;
+}
+
+.window {
+  position: absolute;
+  display: block;
+  border: 5px solid darkgray;
+  box-shadow: 6px 6px 15px;
+}
+
+#banner {
+  padding-left: 9px;
+  font-size: 15pt;
+}
+
+.terminal {
+  height: 400px;
+  width: 400px;
+  --color: lightblue;
+  --background: black;
+  --size: 1.2;
+}

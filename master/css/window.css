@@ -19,7 +19,6 @@
 .terminalContent {
   padding: 10px;
   background-color: black;
-  color: white;
   font-size: 30pt;
 }
 
@@ -37,6 +36,12 @@
   box-shadow: 6px 6px 15px;
 }
 
+#banner {
+  /* For tops of windows */
+  padding-left: 9px;
+  font-size: 15pt;
+}
+
 #termWindow {
   left: 38px;
   top: 70px;
@@ -50,11 +55,6 @@
 #textWindow {
   left: 1100px;
   top: 50px;
-}
-
-#banner {
-  padding-left: 9px;
-  font-size: 15pt;
 }
 
 #playerContent {
