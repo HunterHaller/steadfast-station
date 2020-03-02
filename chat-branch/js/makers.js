@@ -28,6 +28,8 @@ function makeIcon(Icon, Window){
     console.log("making window " + Window.winID)
     makeWindow(Window);
   });
+
+  dragElement(document.getElementById(Icon.iconID));
 }
 
 function makeWindow(Window) {
