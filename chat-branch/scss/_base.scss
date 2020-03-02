@@ -196,7 +196,7 @@ h1 {
 }
 
 #chatTop {
-  background-color: gray;
+  background-color: darkgray;
   height: 40px;
 }
 
@@ -215,7 +215,7 @@ h1 {
 
 #chatBottom {
   height: 100px;
-  background-color: gray;
+  background-color: darkgray;
   bottom: 0;
   z-index: -1;
   display: flex;
@@ -235,7 +235,7 @@ h1 {
 .techMessage{
   @include basicMessage;
   float: right;
-  background-color: darkgray;
+  background-color: gray;
   margin-left: 60px; //prevents horizontal stacking
 }
 
