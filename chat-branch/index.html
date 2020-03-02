@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+
+<html lang="en">
+
+<head>
+  <!--Usuals-->
+  <meta charset="utf-8">
+
+  <!--Custom-->
+  <title>Master Build (OOJS ver.)</title>
+  <link href="./css/main.css" rel="stylesheet" type="text/css" />
+
+  <!--JQuery Terminal-->
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script src="https://unpkg.com/jquery.terminal@2.x.x/js/jquery.terminal.min.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/jquery.terminal@2.x.x/css/jquery.terminal.min.css" />
+</head>
+
+<body class="crt" onload="makeIcon(termIcon, termWindow); makeIcon(playerIcon, playerWindow); makeIcon(introIcon, introWindow); makeWindow(termWindow); termWindow.startTerminal()">
+
+  <div id="topBar" class="noselect">
+    <span class="bar" id="usrID">USR: Tech535</span>
+    <span class="bar" id="time"></span>
+    <span class="bar" id="date"></span>
+    <span class="bar">
+      <img src="img/net2.png" id="netIcon">
+    </span>
+  </div>
+
+  <div id="chatBox">
+    <div id="chatTop" class="noselect" onclick="toggleChat()">
+      <span id="chatTopText">AI COMMS</span>
+    </div>
+    <div id="chatBody">
+      <!-- This is where the chats will go! -->
+    </div>
+    <div id="chatBottom" class="noselect">
+      <div class="chatOption" id="opt1" onclick="sendMessage(mess1)">
+        <p class="optText">Hello, World!</p>
+      </div>
+      <div class="chatOption" id="opt2" onclick="sendMessage(mess2)"> <!--Message content will need to dynamically update!-->
+        <p class="optText">Longer!</p>
+      <!-- </div>
+      <div class="chatOption" id="opt3" onclick="sendMessage(mess3)">
+        <p class="optText">3</p>
+      </div> -->
+    </div>
+  </div>
+
+  <script src="./js/script.js"></script>
+  <script src="./js/classes.js"></script>
+  <script src="./js/makers.js"></script>
+  <script src="./js/icons-and-windows.js"></script>
+  <script src="./js/messages.js"></script>
+</body>
+
+</html>
