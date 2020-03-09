@@ -131,7 +131,7 @@ h1 {
 .window {
   position: absolute;
   display: block;
-  border: 5px solid darkgray;
+  border: 6px solid darkgray;
   box-shadow: 6px 6px 15px; }
 
 .banner {
