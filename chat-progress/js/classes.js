@@ -59,6 +59,14 @@ class Window { //includes terminal code!
             this.error("I wouldn't want to connect to " + dest + " if I were you (it doesn't exist)");
           }
         },
+        hack: function(thing){
+          if (thing == "mainframe"){
+            this.echo("You're in! 0w0");
+          } else if (thing == "butt"){
+            this.echo("0_0");
+          }
+
+        },
         hello: function() {
           this.echo("Hi there!\nFor a real conversation, you should find an Artificial Intelligence \nor another person!");
         },
