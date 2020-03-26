@@ -67,6 +67,13 @@ class Window { //includes terminal code!
           }
 
         },
+        commit: function(thing){
+          if (thing == "die"){
+            while (1 == 1){
+              console.log("YOU BE DYIN");
+            }
+          }
+        },
         hello: function() {
           this.echo("Hi there!\nFor a real conversation, you should find an Artificial Intelligence \nor another person!");
         },
