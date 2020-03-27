@@ -22,29 +22,13 @@ class Window { //includes terminal code!
 
   startTerminal() {
 
-    var localConnect = 0;
-    var progress = 4; //starts at zero, progresses as you play through first phase
-    //Progress is set to max for debugging purposes
-
-    //Power
-    var powerCapacity = 13;
-
-    //Comms
-    var commsVisited = 0;
-    var firstConnection = 0;
-    var currentFrequency = "XY.123.234";
-    var currentCommsStatus = "Disconnected";
-
-    //Thrusters
-    var visible = "None"
-
-    //Radar
-    var dishDegrees = 24;
-
-    //Weapons
-    var firingBay = "Open";
-    var missilesReady = 0;
-
+    if (localStorage.localConnect == 1) {
+      console.log("Game already started, maintaining connection!");
+      localConnect = 1;
+    } else {
+      var localConnect = 0;
+      makeWindow(introWindow);
+    }
 
     //SEQUENCE:
     // POWER
@@ -78,8 +62,10 @@ class Window { //includes terminal code!
           if (dest == "local") {
             if (localConnect == 0) {
               this.echo("Succesfully connected to local station!");
-              setTimeout(messageStep, 2000, mess1, mess2, mess3);
+              setTimeout(messageStep, 2000, messT1, messT2, messA1);
               localConnect = 1;
+              // localStorage.localConnect = 1;
+              console.log("localStorage.localConnect = " + localStorage.localConnect);
             } else if (localConnect == 1) {
               this.error("Already connected!");
             }
@@ -108,22 +94,26 @@ class Window { //includes terminal code!
           this.echo("Hi there!\nFor a real conversation, you should find an Artificial Intelligence \nor another person!");
         },
         systems: function() {
-          this.echo("AVAILABLE SYSTEMS:")
-          this.echo("+ power");
-          if (progress > 0) {
-            this.echo("+ comms");
-          }
-          if (progress > 1) {
-            this.echo("+ weapons");
-          }
-          if (progress > 2) {
-            this.echo("+ radar");
-          }
-          if (progress > 3) {
-            this.echo("+ thrusters");
-          }
-          if (progress < 4) {
-            this.echo("\nPerform more maintenance to access more systems!");
+          if (localConnect == 0){
+            this.error("Not connected to station!")
+          } else{
+            this.echo("AVAILABLE SYSTEMS:")
+            this.echo("+ power");
+            if (progress > 0) {
+              this.echo("+ comms");
+            }
+            if (progress > 1) {
+              this.echo("+ weapons");
+            }
+            if (progress > 2) {
+              this.echo("+ radar");
+            }
+            if (progress > 3) {
+              this.echo("+ thrusters");
+            }
+            if (progress < 4) {
+              this.echo("\nPerform more maintenance to access more systems!");
+            }
           }
         },
         "?": function() { //list available commands
@@ -136,46 +126,52 @@ class Window { //includes terminal code!
           this.echo("- clear: Clears the TRMNL screen");
         },
         power: function() {
-          this.push(function(cmd) {
-            if (cmd == "status") {
-              this.echo("--------------------");
-              this.echo("Station power capacity: " + powerCapacity + "%");
-              this.echo("--------------------");
-            } //end of status
-            else if (cmd.includes('charge')) {
-              if (powerCapacity == 100) {
-                this.error("Station battery already full!");
-              } else {
-                var newCharge = cmd.replace('charge', ''); //isolate new info
-                if (newCharge.includes('BAT-7425')) {
-                  this.echo("Charging station battery from auxiliary power...");
-                  setTimeout(this.echo, 1000, "Finished charging.");
-                  powerCapacity = 100;
-                  progress = 1;
-                  setTimeout(sendExtraMessage, 2000, mess8);
-                  setTimeout(makeWindow, 5000, assistHint2);
+          if (localConnect == 0) {
+            this.error("Not connected to station!");
+          } else {
+            this.push(function(cmd) {
+              if (cmd == "status") {
+                this.echo("--------------------");
+                this.echo("Station power capacity: " + powerCapacity + "%");
+                this.echo("--------------------");
+              } //end of status
+              else if (cmd.includes('charge')) {
+                if (powerCapacity == 100) {
+                  this.error("Station battery already full!");
                 } else {
-                  this.echo("Battery not found!");
+                  var newCharge = cmd.replace('charge', ''); //isolate new info
+                  if (newCharge.includes('BAT-7425')) {
+                    this.echo("Charging station battery from auxiliary power...");
+                    setTimeout(this.echo, 1000, "Finished charging.");
+                    powerCapacity = 100;
+                    progress = 1;
+                    setTimeout(sendExtraMessage, 2000, messA6);
+                    setTimeout(makeWindow, 5000, readoutWindow);
+                    setTimeout(makeWindow, 5000, assistHint2);
+                    setTimeout(makeIcon, 5000, readoutIcon);
+                  } else {
+                    this.echo("Battery not found!");
+                  }
                 }
-              }
-            } //end of charge
-            else if (cmd == "back") {
-              this.pop();
-            } //end of back
-            else if (cmd == "?") {
-              this.echo("AVAILABLE COMMANDS:");
-              this.echo("- back: Move back up to home directory")
-              this.echo("- clear: Clears the TRMNL screen");
-              this.echo("- status: Display status of the connected station's main battery")
-              this.echo("- charge [battery]: Charges the connected station's main battery via \ndocked ship's auxiliary battery, where [battery] is the serial number of the \naux battery.  This number can usually be found inside the ship's data logs.")
-            } //end of ?
-            else {
-              this.error("Command invalid");
-            } //end of else
-          }, {
-            prompt: 'power> ',
-            name: 'power'
-          });
+              } //end of charge
+              else if (cmd == "back") {
+                this.pop();
+              } //end of back
+              else if (cmd == "?") {
+                this.echo("AVAILABLE COMMANDS:");
+                this.echo("- back: Move back up to home directory")
+                this.echo("- clear: Clears the TRMNL screen");
+                this.echo("- status: Display status of the connected station's main battery")
+                this.echo("- charge [battery]: Charges the connected station's main battery via \ndocked ship's auxiliary battery, where [battery] is the serial number of the \naux battery.  This number can usually be found inside the ship's data logs.")
+              } //end of ?
+              else {
+                this.error("Command invalid");
+              } //end of else
+            }, {
+              prompt: 'power> ',
+              name: 'power'
+            });
+          }
         }, //end of power definition
         comms: function() {
           if (progress < 1) {
@@ -220,12 +216,13 @@ class Window { //includes terminal code!
                   currentFrequency = newFreq;
                   if (currentFrequency == "RT.421.890") {
                     currentCommsStatus = "Connected to Revulend Tower";
+                    progress = 2;
                     if (firstConnection == 0) {
                       //First time successful,
-                      setTimeout(messageStep, 2000, mess10, mess11, mess9);
+                      // setTimeout(messageStep, 2000, mess10, mess11, mess9);
                       firstConnection = 1; //stop from sending this message more than once
-                      progress = 2;
                     }
+
                   } else if (currentFrequency == "CW.520.678") {
                     currentCommsStatus = 'Connected to OCW station "HDSTRNG"';
                   } else if (currentFrequency == "CW.238.030") {
@@ -326,8 +323,8 @@ class Window { //includes terminal code!
                     this.echo("Rotating dish to " + newDegrees + " degrees...");
                     dishDegrees = newDegrees;
                     if (dishDegrees == "128" && dishQuestioned == 0) {
-                      setTimeout(messageStep, 1300, mess9, mess10, mess11); //REDO THESE
-                      setTimeout(makeWindow, 4000, assistHint3); //AND THESE
+                      // setTimeout(messageStep, 1300, mess9, mess10, mess11); //REDO THESE
+                      // setTimeout(makeWindow, 4000, assistHint3); //AND THESE
                       dishQuestioned = 1;
                     }
                   } else { //number already present
@@ -355,7 +352,7 @@ class Window { //includes terminal code!
             this.push(function(cmd) {
               if (cmd == 'back') {
                 this.pop();
-                if (progress == 5){
+                if (progress == 5) {
                   //Send final set of messges for phase 1 and initiate deletion of ANTNNS
                 }
               } else if (cmd == '?') {
@@ -370,14 +367,14 @@ class Window { //includes terminal code!
                 this.echo("Firing Bay: " + firingBay);
                 this.echo("Functions: Normal");
                 this.echo("--------------------");
-              } else if (cmd.includes("recharge")){
+              } else if (cmd.includes("recharge")) {
                 if (missilesReady == 10) {
-                  this.error("Missiles already charged!");//if things have already been charged up, no need to charge again
-                } else if (firingBay == "Open"){
+                  this.error("Missiles already charged!"); //if things have already been charged up, no need to charge again
+                } else if (firingBay == "Open") {
                   this.error("Firing bay open!  Please close before recharging!");
-                } else{
+                } else {
                   var newCharge = cmd.replace("recharge", '');
-                  if (!newCharge){
+                  if (!newCharge) {
                     this.error("Please supply a plasma cell to recharge from!");
                   } else {
                     console.log("newDegrees = " + newCharge);
@@ -386,22 +383,22 @@ class Window { //includes terminal code!
                       newCharge = newCharge.substr(1);
                       console.log("...now " + newCharge);
                     }
-                    if (newCharge == "PLSMA-2923"){
+                    if (newCharge == "PLSMA-2923") {
                       this.echo("Charging station weapon systems...");
                       setTimeout(this.echo, 1000, "Readying plasma missiles...");
                       setTimeout(this.echo, 3000, "Done")
                       missilesReady = 10;
                       progress = 5;
-                    } else{
+                    } else {
                       this.error("Unknown plasma cell!");
                     }
                   }
                 }
-              } else if (cmd == "bay"){
-                if (firingBay == "Closed"){
+              } else if (cmd == "bay") {
+                if (firingBay == "Closed") {
                   firingBay = "Open";
                   this.echo("Opening firing bay doors...");
-                } else if (firingBay == "Open"){
+                } else if (firingBay == "Open") {
                   this.echo("Closing firing bay doors...");
                   firingBay = "Closed";
                 }
@@ -414,21 +411,21 @@ class Window { //includes terminal code!
             });
           }
         }, //end of weapons
-        ejectAI: function(){
+        ejectAI: function() {
           this.error("ATTENTION: Ejecting an OCW station's AI without due cause is+\npunishable by punishments ranging from termination to city expulsion.\nPlease by certain you are prepared for this action.");
           this.error("Verify Technician passcode, or enter 'back' to exit process:")
-          this.push(function(passcode){
-            if (passcode == "passcode"){
+          this.push(function(passcode) {
+            if (passcode == "passcode") {
               this.echo("Passcode accepted");
               this.echo("Ejection process started. Please verify final information for ejection...");
               this.echo("Enter target AI codename (case-sensitive): ");
-              this.push(function(codename){
-                if (codename == "ANTNNS"){
+              this.push(function(codename) {
+                if (codename == "ANTNNS") {
                   this.echo("Name found and accepted.");
                   this.echo("By ejecting this OCW station's resident AI you agree that it has been\ndetermined to be corrupted, lacking in moral judgement, or otherwise incapable of overseeing the station in a safe manner. If found to be in error, you will\nbe subject to termination or further consequences.");
                   this.error("Eject?");
-                  this.push(function(decision){
-                    if (decision == "eject"){
+                  this.push(function(decision) {
+                    if (decision == "eject") {
                       this.clear();
                       this.echo("Compiling AI files into ejectable drive...");
                       setTimeout(this.echo, 2000, "Uninstalling AI connections...");
@@ -436,11 +433,11 @@ class Window { //includes terminal code!
                       setTimeout(this.echo, 8000, "Ejecting AI disc...");
                       setTimeout(this.echo, 10000, "Ejection process finished.  Resetting system...");
                       setTimeout(this.reset, 15000);
-                    } else if (decision == "back"){
+                    } else if (decision == "back") {
                       this.pop();
                     }
                   }, {
-                    prompt: "" ,
+                    prompt: "",
                     name: "decision"
                   })
                   // this.reset();

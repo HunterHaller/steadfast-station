@@ -23,7 +23,7 @@ function makeIcon(Icon, Window){
   newIcon.appendChild(newIconLabel);
   document.body.appendChild(newIcon);
 
-  console.log("Making icon with parentWindow = " + Window.winID); //parentWindow can be seen here...
+  // console.log("Making icon with parentWindow = " + Window.winID); //parentWindow can be seen here...
 
   $("#" + Icon.iconID).dblclick(function(){
     // console.log("making window " + Window.winID)
@@ -35,13 +35,11 @@ function makeIcon(Icon, Window){
 
 function makeWindow(Window) {
 
-
-
   if (Window.made == 1) {
-    console.log("Showing window: " + Window.winID);
+    // console.log("Showing window: " + Window.winID);
     Window.show();
   } else {
-    console.log("Making window: " + Window.winID);
+    // console.log("Making window: " + Window.winID);
     var newwin = document.createElement('div');
     newwin.id = Window.winID;
     newwin.className = "window";
@@ -57,8 +55,20 @@ function makeWindow(Window) {
     winBody.innerHTML = Window.content;
 
     if (Window.name == "ASSIST-HINT"){ //if assistantMessage,
+      if (assistantLog.made == 0){
+        makeWindow(assistantLog);
+      }
       newwin.className = "window assistantMessage";
+      var newLog = document.createElement("div");
+      newLog.innerHTML = "<hr>" + Window.content;
 
+      var date = new Date();
+      var time = date.toLocaleTimeString();
+      var logTime = document.createElement('span');
+      logTime.innerHTML = time;
+
+      assistantLogBody.appendChild(logTime);
+      assistantLogBody.appendChild(newLog);
     }
     // $(function() {
     //   $("#" + Window.winID + "Body").load(Window.content);

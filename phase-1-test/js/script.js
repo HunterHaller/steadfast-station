@@ -1,5 +1,26 @@
+var progress = 5; //starts at zero, progresses as you play through first phase
+//Progress is set to max for debugging purposes
+
+//Power
+var powerCapacity = 13;
+
+//Comms
+var commsVisited = 0;
+var firstConnection = 0;
+var currentFrequency = "XY.123.234";
+var currentCommsStatus = "Disconnected";
+
+//Thrusters
+var visible = "No objects";
+
+//Radar
+var dishDegrees = 24;
+
+//Weapons
+var firingBay = "Open";
+var missilesReady = 0;
+
 var docExists = 1;
-var netConnect = 1;
 var toggleChatVar = 1; //1 = being shown
 var rotateNum = 0;
 var etherasDetected = 0;
@@ -9,14 +30,25 @@ var dishQuestioned = 0;
 var stationX = 238;
 var stationY = 47;
 
+var sentMessages = [];
+
 //Suppress default right click for the sake of MY IMMERSION
-document.addEventListener('contextmenu', event => event.preventDefault());
+// document.addEventListener('contextmenu', event => event.preventDefault());
+
+// function loadGame() {
+//   console.log("Loading game save...");
+//   sendSilentMessage(messT1);
+//   for (i = 0; i < sentMessages.length; i++) {
+//     console.log("Adding message mess" + sentMessages[i]);
+//     sendSilentMessage("mess" + sentMessages[i]);
+//   }
+// }
 
 //Top Bar Functions
 var display = setInterval(function() {
   Time(),
     FicDate();
-}, 0);
+}, 100);
 
 function FicDate() {
   var dateObj = new Date();
@@ -30,11 +62,46 @@ function Time() {
   var date = new Date();
   var time = date.toLocaleTimeString();
   document.getElementById("time").innerHTML = time;
+  document.getElementById("powerReadout").innerHTML = powerCapacity + "%";
+  document.getElementById("commsReadout").innerHTML = currentCommsStatus;
+  document.getElementById("thrustersReadout").innerHTML = visible + " in sight";
+  document.getElementById("radarReadout").innerHTML = "Rotated to " + dishDegrees + " degrees";
+  document.getElementById("weaponsReadout").innerHTML = missilesReady + " missiles ready";
+
+  if (powerCapacity < 100){
+    $("#powerReadout").css("color", "red");
+  } else {
+    $("#powerReadout").css("color", "green");
+  }
+
+  if (currentCommsStatus == "Connected to Revulend Tower"){
+    $("#commsReadout").css("color", "green");
+  } else{
+    $("#commsReadout").css("color", "red");
+  }
+
+  if (visible == "No objects"){
+    $("#thrustersReadout").css("color", "red");
+  } else if (visible == "Etheras"){
+    $("#thrustersReadout").css("color", "green");
+  }
+
+  if (dishDegrees == "128"){
+    $("#radarReadout").css("color", "green");
+  } else {
+    $("#radarReadout").css("color", "red");
+  }
+
+  if (missilesReady == "10"){
+    $("#weaponsReadout").css("color", "green");
+  } else {
+    $("#weaponsReadout").css("color", "red");
+  }
 }
 
 //Window Functions
 function dragElement(elmnt) {
-  console.log("Drag function activated for " + elmnt.id + "!");
+  // console.log("Drag function activated for " + elmnt.id + "!");
   var pos1 = 0,
     pos2 = 0,
     pos3 = 0,
@@ -103,16 +170,16 @@ function orientStation(x, y){
   document.onkeydown = checkKey;
 
   function checkKey(e){ //arrow keys to orient station
-    console.log("Key pressed!");
+    // console.log("Key pressed!");
     e = e || window.event;
 
     if (e.keyCode == '37'){
       console.log("Left key!");
-      stationX = stationX + 1;
+      stationX = stationX - 1;
       document.getElementById("xDisplay").innerHTML = stationX;
     } else if (e.keyCode == '39'){
       console.log("Right key!");
-      stationX = stationX - 1;
+      stationX = stationX + 1;
       document.getElementById("xDisplay").innerHTML = stationX;
     } else if (e.keyCode == '38'){
       console.log("Up key!");
@@ -127,12 +194,14 @@ function orientStation(x, y){
 }
 
 function stopOrientation(){
-  document.onkeydown = console.log("beep"); //prevent arrow key presses from changing variables
+  document.onkeydown = console.log("Stopped"); //prevent arrow key presses from changing variables
   orientationWindow.hide(); //close window
 
   if ((stationX < 160 && stationX > 50) && (stationY < 330 && stationY > 283)){
-    setTimeout(sendExtraMessage, 2000, mess14);
+    // setTimeout(sendExtraMessage, 2000, mess14);
+    visible = "Etheras";
   }
+
 
 }
 

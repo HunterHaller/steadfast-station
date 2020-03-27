@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="https://unpkg.com/jquery.terminal@2.x.x/css/jquery.terminal.min.css" />
 </head>
 
-<body class="crt" onload="makeIcon(assistantIcon, assistantLog), makeIcon(termIcon, termWindow); makeIcon(settingsIcon, settingsWindow); makeIcon(playerIcon, playerWindow); makeIcon(introIcon, introWindow); makeWindow(termWindow); makeWindow(introWindow); termWindow.startTerminal()">
+<body class="crt" onload="makeIcon(assistantIcon, assistantLog); makeIcon(termIcon, termWindow); makeIcon(settingsIcon, settingsWindow); makeIcon(playerIcon, playerWindow); makeIcon(introIcon, introWindow); makeWindow(termWindow); termWindow.startTerminal()">
 
   <audio id="messageReceive">
     <source src="audio/message1.wav"
@@ -62,10 +62,6 @@
   <script src="./js/makers.js"></script>
   <script src="./js/icons-and-windows.js"></script>
   <script src="./js/messages.js"></script>
-  <script>
-    makeWindow(assistantLog);
-    $("#assistantLog").css("display", "none");
-  </script>
 </body>
 
 </html>
