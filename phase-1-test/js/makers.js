@@ -21,7 +21,9 @@ function makeIcon(Icon, Window){
 
   newIcon.appendChild(newIconImg);
   newIcon.appendChild(newIconLabel);
+
   document.body.appendChild(newIcon);
+
 
   // console.log("Making icon with parentWindow = " + Window.winID); //parentWindow can be seen here...
 
@@ -57,6 +59,7 @@ function makeWindow(Window) {
     if (Window.name == "ASSIST-HINT"){ //if assistantMessage,
       if (assistantLog.made == 0){
         makeWindow(assistantLog);
+        makeIcon(assistantIcon, assistantLog);
       }
       newwin.className = "window assistantMessage";
       var newLog = document.createElement("div");

@@ -17,14 +17,14 @@ let messA2 = new Message("AI", "Understood!  Let me know if you need my assistan
 let messA3 = new Message("AI", "How thoughtful! Hello indeed!  I suspect you have work to do however.  Let me know if you need anthin", "", "A3");
 
 //4 - "Just here for maintenance."
-let messA4 = new Message("AI", "anything*\n\nPardon my typo... Decades of comms and I still mess it up, silly me... -_-", "", "A4");
+  let messA4 = new Message("AI", "anything*\n\nPardon my typo... Decades of comms and I still mess it up, silly me... -_-", "", "A4");
 let messA5 = new Message("AI", "Anyway, mind taking a look at my battery first?", "", "A5");
 
 //5 - After charging station battery
-let messA6 = new Message("AI", "Thanks for the boost!  I was feeling little parched there, haha!", "", "A6");
+let messA6 = new Message("AI", "Thanks for the boost!  I was feeling a little parched there, haha!", "", "A6");
 
 //6 - After attuning station frequency
-let messA7 = new Message("AI", "Nice work!  I've missed takling to my friends in Etheras... That was a joke, I can't really talk to anyone :( maybe someday though!", "", "A7");
+let messA7 = new Message("AI", "Nice work!  I've missed talking to my friends in Etheras... That was a joke, I can't really talk to anyone :( maybe someday though!", "", "A7");
 let messT3 = new Message("Technician", "How long have you worked here?", "Been here long?", "T3");
 let messT4 = new Message("Technician", "I bet you're a great conversationalist!", "You're fun to talk to!", "T4");
 
@@ -36,143 +36,23 @@ let messA9 = new Message("AI", "Tthanks! ^_^ I don't get much real conversation,
 
 //9 - Successful station orientation
 let messA10 = new Message("AI", "Excellent, the city is in view.  I can properly oversee its protection now >:)", "", "A10");
+let messA11 = new Message("AI", "Say, do you live down there in Etheras?", "", "A11");
+let messT5 = new Message("Technician", "Yes, I live in a nice apartment in the city!", "Yes, a nice apartment", "T5");
+let messA12 = new Message("AI", "Oh that sounds amazing!  I wish I could go somewhere like that... Who knows, maybe one day if I'm unfit for station duty, I can go live somewhere down there...", "", "A12");
+let messT6 = new Message("Technician", "I live in a crappy building on the outskirts, yeah", "Yes, on the outskirts", "T6")
+let messA13 = new Message("AI", "I see... Well, it can't be much worse than being up here.  At least you have people to talk to, things to do...", "", "A13");
 
-//Message Delivery and Changing
+//10 - Successful radar rotation
+let messA14 = new Message("AI", "Hmm... Pointing the dish right at the city is an odd choice, but it works I suppose. Thanks!", "", "A14");
+let messT7 = new Message("Technician", "My Assistant AI told me to put it there", "Not my idea!", "T7");
+let messA15 = new Message("AI", "Really? Strange... Usually it gets pointed out into space more. Are they confused? Or am I? Maybe I'm not up to protocol...", "", "A15");
+let messT8 = new Message("Technician", "Where is it usually pointed?", "What's the usual?", "T8");
+let messA16 = new Message("AI", "It's generally pointed out into space so it can see more asteroids and stuff. But hey, if things are different, who am I to argue?", "", "A16");
 
-var buttonsActive = 0;
+let messA17 = new Message("AI", "Awesome, I see you got my weapons ready to fire again! If I'm not mistaken, that should mean everything is ready to go again... Thanks for your help!", "", "A17");
 
-function sendExtraMessage(Message) { //for sending extra AI messages only, when they come in groups
+let messA18 = new Message("AI", "Whoa, hey, did you just start the eject sequence?  Come oooon, things aren't that bad, right?", "", "A18");
+let messA19 = new Message("AI", "Oof, okay, you're still going. Hmm... Did not see this coming. I think I'll survive if you do this, but like, still kind of a bummer. Can't we work this out?", "", "A19");
+let messA20 = new Message("AI", "I guess this is it huh. Stay on your toes, Technician... and keep an eye out for me, eh?", "", "A20");
 
-  messageReceiveAudio(); //play sound
-  var newMess = document.createElement('div');
-  newMess.id = Message.messID;
-  var newText = document.createElement('p');
-  newText.innerHTML = Message.message;
-  newText.className = "noselect";
-  newMess.className = "message stationMessage";
-
-  newMess.appendChild(newText);
-
-  document.getElementById("chatBody").appendChild(newMess);
-  document.getElementById("chatBody").scrollTo(0, document.getElementById("chatBody").scrollHeight);
-
-  $("#" + Message.messID).css("display", "none"); //prep for fade in
-  $("#" + Message.messID).fadeIn(); //window comes in all pretty like
-  $("#" + Message.messID).css("display", "block");
-  $("#" + Message.messID).removeAttr('id');
-
-  //remove prompt text while waiting for new dialogue
-  document.getElementById("optTextA").innerHTML = "";
-  document.getElementById("optTextB").innerHTML = "";
-}
-
-function sendMessage(Message) {
-
-  if (buttonsActive == 1) { //if ready to send messages,
-
-    var newMess = document.createElement('div');
-    newMess.id = Message.messID;
-    var newText = document.createElement('p');
-    newText.innerHTML = Message.message;
-    newText.className = "noselect"
-
-    if (Message.sender == "Technician") {
-      newMess.className = "message techMessage";
-      messageSendAudio(); //play sound
-      buttonsActive = 0; //disable buttons after posting
-    } else {
-      messageReceiveAudio(); //play sound
-      (newMess.className = "message stationMessage");
-    }
-
-    newMess.appendChild(newText);
-
-    document.getElementById("chatBody").appendChild(newMess);
-    document.getElementById("chatBody").scrollTo(0, document.getElementById("chatBody").scrollHeight);
-
-    $("#" + Message.messID).css("display", "none"); //prep for fade in
-    $("#" + Message.messID).fadeIn(); //window comes in all pretty like
-    $("#" + Message.messID).css("display", "block");
-    $("#" + Message.messID).removeAttr('id');
-
-    //remove prompt text while waiting for new dialogue
-    document.getElementById("optTextA").innerHTML = "";
-    document.getElementById("optTextB").innerHTML = "";
-
-    //Progress Tracking, at least for now
-    //Depending on which message was just sent, choose which branch to continue on to
-    if (Message.messID == "T1") { //Maintenance
-      setTimeout(sendExtraMessage, 2000, messA2);
-      setTimeout(sendExtraMessage, 5000, messA4);
-      setTimeout(sendExtraMessage, 7500, messA5);
-      setTimeout(makeWindow, 10000, assistHint1);
-      sentMessages.push("T1", "A2", "A4", "A5");
-    } else if (Message.messID == "T2") { //Saying hello
-      setTimeout(sendExtraMessage, 2000, messA3);
-      setTimeout(sendExtraMessage, 5000, messA4);
-      setTimeout(sendExtraMessage, 7500, messA5);
-      setTimeout(makeWindow, 10000, assistHint1);
-
-    } else if (Message.messID == "T3") { //How long have you worked here?
-      setTimeout(sendExtraMessage, 2000, messA8);
-    } else if (Message.messID == "T4") { //Great conversationalist
-      setTimeout(sendExtraMessage, 2000, messA9);
-    }
-  }
-}
-
-function messageStep(a, b, c) {
-  //a, b, and c are all message objects, like those above
-  //a and b are always player messages
-  //c is always an AI message
-
-  if (toggleChatVar == 0) { //if chat is minimized, open it back up!
-    console.log("Chat is closed, opening...");
-    toggleChat();
-  }
-
-  buttonsActive = 1; //enable button clicking for sending player messages
-
-  // console.log("Sending message with id " + c.messID);
-  messageReceiveAudio(); //play sound
-  sendMessage(c); //send first AI message to respond to
-  if (b.sender != "none") {
-    messA = a;
-    messB = b;
-    document.getElementById("optTextA").innerHTML = a.preview;
-    document.getElementById("optTextB").innerHTML = b.preview;
-  } else {
-    buttonsActive = 0;
-    messA = blankMess;
-    messB = blankMess;
-  }
-
-} //sends an AI message, populates the message options with text and changes what messages they send
-
-function sendSilentMessage(Message) {
-
-  var newMess = document.createElement('div');
-  newMess.id = Message.messID;
-  var newText = document.createElement('p');
-  newText.innerHTML = Message.message;
-  newText.className = "noselect"
-
-  if (Message.sender == "Technician") {
-    newMess.className = "message techMessage";
-    buttonsActive = 0; //disable buttons after posting
-  } else {
-    (newMess.className = "message stationMessage");
-  }
-
-  newMess.appendChild(newText);
-
-  document.getElementById("chatBody").appendChild(newMess);
-  document.getElementById("chatBody").scrollTo(0, document.getElementById("chatBody").scrollHeight);
-
-  $("#" + Message.messID).css("display", "block");
-  $("#" + Message.messID).removeAttr('id');
-
-  //remove prompt text while waiting for new dialogue
-  document.getElementById("optTextA").innerHTML = "";
-  document.getElementById("optTextB").innerHTML = "";
-}
+let messC1 = new Message("CLGLA", "Hey, Technician.  Sorry about all this fuss and getting you dragged into this.", "", "C1");

@@ -63,6 +63,7 @@ class Window { //includes terminal code!
             if (localConnect == 0) {
               this.echo("Succesfully connected to local station!");
               setTimeout(messageStep, 2000, messT1, messT2, messA1);
+              document.getElementById("chatTopText").innerHTML = "AI COMMS - ANTNNS";
               localConnect = 1;
               // localStorage.localConnect = 1;
               console.log("localStorage.localConnect = " + localStorage.localConnect);
@@ -103,13 +104,13 @@ class Window { //includes terminal code!
               this.echo("+ comms");
             }
             if (progress > 1) {
-              this.echo("+ weapons");
+              this.echo("+ thrusters");
             }
             if (progress > 2) {
               this.echo("+ radar");
             }
             if (progress > 3) {
-              this.echo("+ thrusters");
+              this.echo("+ weapons");
             }
             if (progress < 4) {
               this.echo("\nPerform more maintenance to access more systems!");
@@ -148,7 +149,44 @@ class Window { //includes terminal code!
                     setTimeout(sendExtraMessage, 2000, messA6);
                     setTimeout(makeWindow, 5000, readoutWindow);
                     setTimeout(makeWindow, 5000, assistHint2);
-                    setTimeout(makeIcon, 5000, readoutIcon);
+                    setTimeout(makeIcon, 5000, readoutIcon, readoutWindow);
+                    var updateReadout = setInterval(function() {
+                      document.getElementById("powerReadout").innerHTML = powerCapacity + "%";
+                      document.getElementById("commsReadout").innerHTML = currentCommsStatus;
+                      document.getElementById("thrustersReadout").innerHTML = visible + " in sight";
+                      document.getElementById("radarReadout").innerHTML = "Rotated to " + dishDegrees + " degrees";
+                      document.getElementById("weaponsReadout").innerHTML = missilesReady + " missiles ready";
+
+                      if (powerCapacity < 100) {
+                        $("#powerReadout").css("color", "red");
+                      } else {
+                        $("#powerReadout").css("color", "green");
+                      }
+
+                      if (currentCommsStatus == "Connected to Revulend Tower") {
+                        $("#commsReadout").css("color", "green");
+                      } else {
+                        $("#commsReadout").css("color", "red");
+                      }
+
+                      if (visible == "No objects") {
+                        $("#thrustersReadout").css("color", "red");
+                      } else if (visible == "Etheras") {
+                        $("#thrustersReadout").css("color", "green");
+                      }
+
+                      if (dishDegrees == "128") {
+                        $("#radarReadout").css("color", "green");
+                      } else {
+                        $("#radarReadout").css("color", "red");
+                      }
+
+                      if (missilesReady == "10") {
+                        $("#weaponsReadout").css("color", "green");
+                      } else {
+                        $("#weaponsReadout").css("color", "red");
+                      }
+                    }, 0);
                   } else {
                     this.echo("Battery not found!");
                   }
@@ -176,6 +214,8 @@ class Window { //includes terminal code!
         comms: function() {
           if (progress < 1) {
             this.error("Comms inaccessible, power too low!");
+          } else if (localConnect == 0) {
+            this.error("Not connected to station!");
           } else {
             if (commsVisited == 0) {
               setTimeout(makeWindow, 200, assistHint3);
@@ -219,7 +259,7 @@ class Window { //includes terminal code!
                     progress = 2;
                     if (firstConnection == 0) {
                       //First time successful,
-                      // setTimeout(messageStep, 2000, mess10, mess11, mess9);
+                      setTimeout(messageStep, 2000, messT3, messT4, messA7);
                       firstConnection = 1; //stop from sending this message more than once
                     }
 
@@ -235,7 +275,7 @@ class Window { //includes terminal code!
                 this.echo("- clear: Clears the TRMNL screen");
                 this.echo("- status: Display status of the comms system");
                 this.echo("- frequencies: List all available frequencies");
-                this.echo("- attune [frequency]: Attunes the station to listen in on the specified \nfrequency.  If no frequency is specified, one will be asked for.")
+                this.echo("- attune [frequency]: Sets the frequency for the station to broadcast on.")
               } else {
                 this.error("Command invalid!");
               }
@@ -246,9 +286,15 @@ class Window { //includes terminal code!
           }
         }, //end of comms definition
         thrusters: function() {
-          if (progress < 2) {
-            this.error("Thrusters inaccessible, must be able to alert tower or other station \nof movement!");
+          if (localConnect == 0){
+            this.error("Not connected to station!");
+          } else if (progress < 2) {
+            this.error("Thrusters inaccessible, must be able to alert tower of movement!");
           } else {
+            if (firstThruster == 0){
+              setTimeout(makeWindow, 100, assistHint5);
+              firstThruster = 1;
+            }
             this.push(function(cmd) {
               if (cmd == 'back') {
                 this.pop(); //pop back up
@@ -280,7 +326,13 @@ class Window { //includes terminal code!
         radar: function() {
           if (progress < 3) {
             this.error("Radar inaccessible, no objects in view!");
+          } else if (localConnect == 0) {
+            this.error("Not connected to station!")
           } else {
+            if (firstRadar == 0){
+              setTimeout(makeWindow, 100, assistHint7);
+              firstRadar = 1;
+            }
             this.push(function(cmd) {
               if (cmd == 'back') {
                 this.pop();
@@ -288,26 +340,22 @@ class Window { //includes terminal code!
                 this.echo("AVAILABLE COMMANDS:");
                 this.echo("- back: Move back up to home directory")
                 this.echo("- clear: Clears the TRMNL screen");
-                this.echo("- detect angle [thing]: Where thing is a quadrant of space or a spatial \nlandmark, gives the appropriate angle of thing in degrees.  Useful for \npositioning radar dish. (Don't specify a thing to get a list of \navaiable objects!)")
+                this.echo("- detect angle [thing]: Where thing is a spatial landmark, gives the \nappropriate angle of thing in degrees relative to the station.  Useful for \npositioning radar dish. (Don't specify a thing to get a list of\navaiable objects!)")
                 this.echo("- rotate [#]: Rotates the radar dish to the specified number in degrees")
                 this.echo("- status: Display status of radar dish")
               } else if (cmd == 'detect angle') {
                 this.echo("Please specify an object!");
-                this.echo("Available objects include:\n- Etheras (world station)\n- Alpha Quadrant\n- Beta Quadant\n- Gamme Quadrant\n- Delta Quadrant")
+                this.echo("Available objects include:");
+                this.echo("- Etheras (world station)\n- PGHDD Station\n- HDSTRNG Station")
               } else if (cmd == 'detect angle Etheras') {
                 if (etherasDetected == 0) {
                   etherasDetected = 1;
-                  makeWindow(assistHint2);
                 }
                 this.echo("128 degrees");
-              } else if (cmd == 'detect angle Alpha Quadrant') {
+              } else if (cmd == 'detect angle PGHDD station') {
                 this.echo("4 degrees");
-              } else if (cmd == 'detect angle Beta Quadrant') {
+              } else if (cmd == 'detect angle HDSTRNG station') {
                 this.echo("24 degrees");
-              } else if (cmd == 'detect angle Gamma Quadrant') {
-                this.echo("258 degrees (out of range)");
-              } else if (cmd == 'detect angle Delta Quadrant') {
-                this.echo("301 degrees (out of range)");
               } else if (cmd.includes('rotate')) { //FIX THIS FUNCTION!  ACCEPTS SINGLE ARGUMENT INPUTS WHEN IT SHOULD NOT, E.G. "ROTATE128" AND BREAKS THE FLOW
                 var newDegrees = cmd.replace('rotate', '');
                 if (!newDegrees) {
@@ -323,8 +371,7 @@ class Window { //includes terminal code!
                     this.echo("Rotating dish to " + newDegrees + " degrees...");
                     dishDegrees = newDegrees;
                     if (dishDegrees == "128" && dishQuestioned == 0) {
-                      // setTimeout(messageStep, 1300, mess9, mess10, mess11); //REDO THESE
-                      // setTimeout(makeWindow, 4000, assistHint3); //AND THESE
+                      setTimeout(messageStep, 1300, messT7, messT8, messA14); //REDO THESE
                       dishQuestioned = 1;
                     }
                   } else { //number already present
@@ -348,7 +395,13 @@ class Window { //includes terminal code!
         weapons: function() {
           if (progress < 4) {
             this.error("Weapons inaccessible, need radar to aim!");
+          } else if (localConnect == 0){
+            this.error("Not connected to station!");
           } else {
+            if (firstWeapons == 0){
+              setTimeout(makeWindow, 100, assistHint9);
+              firstWeapons = 1;
+            }
             this.push(function(cmd) {
               if (cmd == 'back') {
                 this.pop();
@@ -360,7 +413,7 @@ class Window { //includes terminal code!
                 this.echo("- back: Move back up to home directory")
                 this.echo("- clear: Clears the TRMNL screen");
                 this.echo("- status: Display status of radar dish")
-                this.echo("- recharge [plasma cells]: Recharges station weapon systems from supplied cells as designated, where [plasma cells] is the serial number of the cells being drawn from.")
+                this.echo("- recharge [plasma cells]: Recharges station weapon systems from supplied cells as designated, where [plasma cells] is the serial number of the cells being \ndrawn from.")
               } else if (cmd == 'status') {
                 this.echo("--------------------");
                 this.echo("Anti-Air Plasma Missiles Ready: " + missilesReady);
@@ -387,6 +440,8 @@ class Window { //includes terminal code!
                       this.echo("Charging station weapon systems...");
                       setTimeout(this.echo, 1000, "Readying plasma missiles...");
                       setTimeout(this.echo, 3000, "Done")
+                      setTimeout(sendExtraMessage, 5000, messA17);
+                      setTimeout(makeWindow, 8000, assistHint10);
                       missilesReady = 10;
                       progress = 5;
                     } else {
@@ -412,55 +467,78 @@ class Window { //includes terminal code!
           }
         }, //end of weapons
         ejectAI: function() {
-          this.error("ATTENTION: Ejecting an OCW station's AI without due cause is+\npunishable by punishments ranging from termination to city expulsion.\nPlease by certain you are prepared for this action.");
-          this.error("Verify Technician passcode, or enter 'back' to exit process:")
-          this.push(function(passcode) {
-            if (passcode == "passcode") {
-              this.echo("Passcode accepted");
-              this.echo("Ejection process started. Please verify final information for ejection...");
-              this.echo("Enter target AI codename (case-sensitive): ");
-              this.push(function(codename) {
-                if (codename == "ANTNNS") {
-                  this.echo("Name found and accepted.");
-                  this.echo("By ejecting this OCW station's resident AI you agree that it has been\ndetermined to be corrupted, lacking in moral judgement, or otherwise incapable of overseeing the station in a safe manner. If found to be in error, you will\nbe subject to termination or further consequences.");
-                  this.error("Eject?");
-                  this.push(function(decision) {
-                    if (decision == "eject") {
-                      this.clear();
-                      this.echo("Compiling AI files into ejectable drive...");
-                      setTimeout(this.echo, 2000, "Uninstalling AI connections...");
-                      setTimeout(this.echo, 4000, "Making final checks...");
-                      setTimeout(this.echo, 8000, "Ejecting AI disc...");
-                      setTimeout(this.echo, 10000, "Ejection process finished.  Resetting system...");
-                      setTimeout(this.reset, 15000);
-                    } else if (decision == "back") {
-                      this.pop();
-                    }
-                  }, {
-                    prompt: "",
-                    name: "decision"
-                  })
-                  // this.reset();
-                } else if (codename == "back") {
-                  this.pop();
-                } else {
-                  this.error("Name not found!");
-                }
-              }, {
-                prompt: "codename>>> ",
-                name: "codename"
-              });
-            } else if (passcode == "back") {
-              this.echo("Ejection process aborted, exiting")
-              this.pop();
-            } else {
-              this.error("Passcode not recognized, exiting");
-              this.pop();
+          if (localConnect  == 0){
+            this.error("Not connected to station!");
+          } else if (progress < 5){
+            this.error("Station not fully operable. Can only eject when all systems ready!");
+          } else if (phase2 == 1) {
+            this.error("Already used ejection disc!");
+          } else {
+            if (firstEject == 0){
+              setTimeout(sendExtraMessage, 1000, messA18);
+              firstEject = 1;
             }
-          }, {
-            prompt: 'passcode>> ',
-            name: 'passcode'
-          });
+            this.error("ATTENTION: Ejecting an OCW station's AI without due cause is\npunishable by consequences ranging from termination to city expulsion.\nPlease by certain you are prepared for this action.");
+            this.error("Verify Technician passcode, or enter 'back' to exit process:")
+            this.push(function(passcode) {
+              if (passcode == "t3ch535-729843") {
+                if (firstPasscode == 0){
+                  setTimeout(sendExtraMessage, 1000, messA19);
+                  firstPasscode = 1;
+                }
+                this.echo("Passcode accepted");
+                this.echo("Ejection process started. Please verify final information for ejection...");
+                this.echo("Enter target AI codename (case-sensitive): ");
+                this.push(function(codename) {
+                  if (codename == "ANTNNS") {
+                    if (firstCodename == 0){
+                      setTimeout(sendExtraMessage, 1000, messA20);
+                      setTimeout(makeWindow, 4000, assistHint11);
+                      firstCodename = 1;
+                    }
+                    this.echo("Name found and accepted.");
+                    this.echo("By ejecting this OCW station's resident AI you agree that it has been\ndetermined to be corrupted, lacking in moral judgement, or otherwise \nincapable of overseeing the station in a safe manner. If found to be in \nerror, you will be subject to termination or further consequences.");
+                    this.error("Eject?");
+                    this.push(function(decision) {
+                      if (decision == "eject" || decision == "EJECT") {
+                        this.clear();
+                        this.echo("Compiling AI files into ejectable drive...");
+                        setTimeout(this.echo, 2000, "Uninstalling AI connections...");
+                        setTimeout(this.echo, 4000, "Making final checks...");
+                        setTimeout(this.echo, 8000, "Ejecting AI disc...");
+                        setTimeout(ejectAudio, 8000);
+                        setTimeout(this.echo, 12000, "Ejection process finished.  Resetting system...");
+                        setTimeout(phase2Transition, 16988);
+                        setTimeout(this.reset, 17000);
+                      } else if (decision == "back") {
+                        this.pop();
+                      }
+                    }, {
+                      prompt: "",
+                      name: "decision"
+                    })
+                    // this.reset();
+                  } else if (codename == "back") {
+                    this.pop();
+                  } else {
+                    this.error("Name not found!");
+                  }
+                }, {
+                  prompt: "codename>>> ",
+                  name: "codename"
+                });
+              } else if (passcode == "back") {
+                this.echo("Ejection process aborted, exiting")
+                this.pop();
+              } else {
+                this.error("Passcode not recognized, exiting");
+                this.pop();
+              }
+            }, {
+              prompt: 'passcode>> ',
+              name: 'passcode'
+            });
+          }
         }
       }, //end of terminal functions,
       { //start of terminal options

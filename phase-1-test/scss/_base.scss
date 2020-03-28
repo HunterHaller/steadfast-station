@@ -265,6 +265,13 @@ h1 {
   background-color: cyan;
 }
 
+.assistantChat {
+  @include basicMessage;
+  float: left;
+  text-align: left;
+  background-color: red;
+}
+
 .message p{
   font-size: 18pt;
 }
@@ -287,6 +294,34 @@ button{
   border: none;
   color: black;
   font-size: 20pt;
+}
+
+//Files styles
+
+#filesWindowBody{
+  p {
+    cursor: pointer;
+    transition: color 0.3s;
+
+    &:hover{
+      color: magenta;
+    }
+    &:active{
+      color: lightblue;
+    }
+  }
+}
+
+// Transition css
+#overlay{
+  background: black;
+  display:none;
+  width:100%;
+  height:100%;
+  position: absolute;
+  top:0;
+  left:0;
+  z-index:99998;
 }
 
 /*IMPORTED*/
@@ -407,6 +442,19 @@ button{
   animation: textShadow 1.6s infinite;
 }
 
+.crtPause::before {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+  z-index: 2;
+  background-size: 100% 2px, 3px 100%;
+  pointer-events: none;
+}
 .crtPause::after {
   content: " ";
   display: block;
@@ -421,19 +469,6 @@ button{
   pointer-events: none;
   animation: flicker 0.15s infinite;
   animation-play-state: paused;
-}
-.crtPause::before {
-  content: " ";
-  display: block;
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-  z-index: 2;
-  background-size: 100% 2px, 3px 100%;
-  pointer-events: none;
 }
 .crtPause {
   animation: textShadow 1.6s infinite;

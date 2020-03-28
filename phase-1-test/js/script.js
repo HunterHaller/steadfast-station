@@ -1,6 +1,8 @@
 var progress = 5; //starts at zero, progresses as you play through first phase
 //Progress is set to max for debugging purposes
 
+var buttonsActive = 0;
+
 //Power
 var powerCapacity = 13;
 
@@ -11,12 +13,15 @@ var currentFrequency = "XY.123.234";
 var currentCommsStatus = "Disconnected";
 
 //Thrusters
+var firstThruster = 0;
 var visible = "No objects";
 
 //Radar
+var firstRadar = 0;
 var dishDegrees = 24;
 
 //Weapons
+var firstWeapons = 0;;
 var firingBay = "Open";
 var missilesReady = 0;
 
@@ -27,10 +32,17 @@ var etherasDetected = 0;
 var dishQuestioned = 0;
 
 //Station orientation
-var stationX = 238;
-var stationY = 47;
+var stationX = 130;
+var stationY = 300;
 
-var sentMessages = [];
+//Ejection messages
+var firstEject = 0;
+var firstPasscode = 0;
+var firstCodename = 0;
+
+var phase2 = 0;
+
+// var sentMessages = [];
 
 //Suppress default right click for the sake of MY IMMERSION
 // document.addEventListener('contextmenu', event => event.preventDefault());
@@ -62,41 +74,6 @@ function Time() {
   var date = new Date();
   var time = date.toLocaleTimeString();
   document.getElementById("time").innerHTML = time;
-  document.getElementById("powerReadout").innerHTML = powerCapacity + "%";
-  document.getElementById("commsReadout").innerHTML = currentCommsStatus;
-  document.getElementById("thrustersReadout").innerHTML = visible + " in sight";
-  document.getElementById("radarReadout").innerHTML = "Rotated to " + dishDegrees + " degrees";
-  document.getElementById("weaponsReadout").innerHTML = missilesReady + " missiles ready";
-
-  if (powerCapacity < 100){
-    $("#powerReadout").css("color", "red");
-  } else {
-    $("#powerReadout").css("color", "green");
-  }
-
-  if (currentCommsStatus == "Connected to Revulend Tower"){
-    $("#commsReadout").css("color", "green");
-  } else{
-    $("#commsReadout").css("color", "red");
-  }
-
-  if (visible == "No objects"){
-    $("#thrustersReadout").css("color", "red");
-  } else if (visible == "Etheras"){
-    $("#thrustersReadout").css("color", "green");
-  }
-
-  if (dishDegrees == "128"){
-    $("#radarReadout").css("color", "green");
-  } else {
-    $("#radarReadout").css("color", "red");
-  }
-
-  if (missilesReady == "10"){
-    $("#weaponsReadout").css("color", "green");
-  } else {
-    $("#weaponsReadout").css("color", "red");
-  }
 }
 
 //Window Functions
@@ -162,30 +139,34 @@ function messageSendAudio() {
   document.getElementById("messageSend").play();
 }
 
+function ejectAudio(){
+  document.getElementById("ejectAudio").play();
+}
+
 //Orientation functions
-function orientStation(x, y){
+function orientStation(x, y) {
   document.getElementById("xDisplay").innerHTML = x;
   document.getElementById("yDisplay").innerHTML = y;
 
   document.onkeydown = checkKey;
 
-  function checkKey(e){ //arrow keys to orient station
+  function checkKey(e) { //arrow keys to orient station
     // console.log("Key pressed!");
     e = e || window.event;
 
-    if (e.keyCode == '37'){
+    if (e.keyCode == '37') {
       console.log("Left key!");
       stationX = stationX - 1;
       document.getElementById("xDisplay").innerHTML = stationX;
-    } else if (e.keyCode == '39'){
+    } else if (e.keyCode == '39') {
       console.log("Right key!");
       stationX = stationX + 1;
       document.getElementById("xDisplay").innerHTML = stationX;
-    } else if (e.keyCode == '38'){
+    } else if (e.keyCode == '38') {
       console.log("Up key!");
       stationY = stationY + 1;
       document.getElementById("yDisplay").innerHTML = stationY;
-    } else if (e.keyCode == '40'){
+    } else if (e.keyCode == '40') {
       console.log("Down key!");
       stationY = stationY - 1;
       document.getElementById("yDisplay").innerHTML = stationY;
@@ -193,23 +174,43 @@ function orientStation(x, y){
   }
 }
 
-function stopOrientation(){
+function stopOrientation() {
   document.onkeydown = console.log("Stopped"); //prevent arrow key presses from changing variables
   orientationWindow.hide(); //close window
 
-  if ((stationX < 160 && stationX > 50) && (stationY < 330 && stationY > 283)){
-    // setTimeout(sendExtraMessage, 2000, mess14);
+  if ((stationX < 160 && stationX > 120) && (stationY < 310 && stationY > 295)) {
+    setTimeout(sendExtraMessage, 2000, messA10);
+    setTimeout(messageStep, 5000, messT5, messT6, messA11);
     visible = "Etheras";
+    progress = 3;
   }
 
 
 }
 
 //Toggle
-function toggleFlicker(){
+function toggleFlicker() {
   console.log("Toggling flicker effect!");
   $('#toggleFlickerButton').toggleClass('buttonOff');
   $('#toggleFlickerButton').toggleClass('buttonOn');
   $('body').toggleClass('crt');
   $('body').toggleClass('crtPause');
+}
+
+function phase2Transition(){
+  $('#overlay').fadeIn(1);
+  setTimeout(overlayFadeOut, 2000);
+  $('body').css("background-image", "url('../img/background7.jpg')");
+  $('#chatTopText').html("AI COMMS - CLGLA");
+  $('#chatBody').html("");
+
+  setTimeout(sendExtraMessage, 8000, messC1);
+  $('.stationMessage').css("background-color", "red");
+  $('#termWindowBody').css("--color", "red");
+
+  phase2 = 1;
+}
+
+function overlayFadeOut(){
+  $('#overlay').fadeOut(4000);
 }

@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="https://unpkg.com/jquery.terminal@2.x.x/css/jquery.terminal.min.css" />
 </head>
 
-<body class="crt" onload="makeIcon(assistantIcon, assistantLog); makeIcon(termIcon, termWindow); makeIcon(settingsIcon, settingsWindow); makeIcon(playerIcon, playerWindow); makeIcon(introIcon, introWindow); makeWindow(termWindow); termWindow.startTerminal()">
+<body class="crt" onload="makeWindow(introWindow); makeIcon(filesIcon, filesWindow); makeIcon(termIcon, termWindow); makeIcon(settingsIcon, settingsWindow); makeWindow(termWindow); termWindow.startTerminal();">
 
   <audio id="messageReceive">
     <source src="audio/message1.wav"
@@ -27,6 +27,13 @@
     <source src="audio/message2.wav"
     typ="audio/wav">
   </audio>
+
+  <audio id="ejectAudio">
+    <source src="audio/eject.wav"
+    type="audio/wav">
+  </audio>
+
+  <div id="overlay"></div>
 
   <div id="topBar" class="noselect">
     <span class="bar" id="usrID">USR: Tech535</span>
@@ -62,6 +69,7 @@
   <script src="./js/makers.js"></script>
   <script src="./js/icons-and-windows.js"></script>
   <script src="./js/messages.js"></script>
+  <script src="./js/messageFunctions.js"></script>
 </body>
 
 </html>
