@@ -14,7 +14,8 @@ var currentCommsStatus = "Disconnected";
 
 //Thrusters
 var firstThruster = 0;
-var visible = "No objects";
+var visible = 'OCW station "PGHDD"';
+var thrusterDone = 0;
 
 //Radar
 var firstRadar = 0;
@@ -30,10 +31,14 @@ var toggleChatVar = 1; //1 = being shown
 var rotateNum = 0;
 var etherasDetected = 0;
 var dishQuestioned = 0;
+var radarStatus = "Normal"
 
 //Station orientation
-var stationX = 130;
-var stationY = 300;
+var stationX = 84;
+var stationY = 70;
+
+//Weapons
+var weaponsStatus = "Normal";
 
 //Ejection messages
 var firstEject = 0;
@@ -41,6 +46,11 @@ var firstPasscode = 0;
 var firstCodename = 0;
 
 var phase2 = 0;
+
+var commsDestroyed = 0;
+// var thrustersDestroyed = 0;
+var radarDestroyed = 0;
+var weaponsDestroyed = 0;
 
 // var sentMessages = [];
 
@@ -117,16 +127,12 @@ function dragElement(elmnt) {
 
 //Chat Functions
 function toggleChat() {
-  if (toggleChatVar == 1) { //is open
-    $("#chatBox").css("height", 40);
-    toggleChatVar = 0; //make closed
-  } else { //is closed
-    $("#chatBox").css("height", 500);
-    toggleChatVar = 1; //make open
+  var chatHeight = $("#chatBox").css("height");
+  if (chatHeight == "500px") { //is open
+    $("#chatBox").css("height", "40px");
+  } else if (chatHeight < "500px"){ //is closed or closing
+    $("#chatBox").css("height", "500px");
   }
-
-
-
 }
 
 //Audio Functions
@@ -150,25 +156,47 @@ function orientStation(x, y) {
 
   document.onkeydown = checkKey;
 
+  var updateOrient = setInterval(function(){
+    $("#visibleList").html(visible);
+
+    if ((stationX < 160 && stationX > 120) && (stationY < 310 && stationY > 295)) {
+      visible = "Etheras";
+    } else if ((stationX < 350 && stationX > 310) && (stationY < 210 && stationY > 190)) {
+      visible = 'OCW station "HDSTRNG"';
+    } else if ((stationX < 100 && stationX > 50) && (stationY < 74 && stationY > 24)) {
+      visible = 'OCW station "PGHDD"';
+    } else{
+      visible = "No objects";
+    }
+  }, 10);
+
   function checkKey(e) { //arrow keys to orient station
     // console.log("Key pressed!");
     e = e || window.event;
 
     if (e.keyCode == '37') {
       console.log("Left key!");
-      stationX = stationX - 1;
+      if (stationX != 0){
+        stationX = stationX - 1;
+      }
       document.getElementById("xDisplay").innerHTML = stationX;
     } else if (e.keyCode == '39') {
       console.log("Right key!");
-      stationX = stationX + 1;
+      if (stationX != 360){
+        stationX = stationX + 1;
+      }
       document.getElementById("xDisplay").innerHTML = stationX;
     } else if (e.keyCode == '38') {
       console.log("Up key!");
-      stationY = stationY + 1;
+      if (stationY != 360){
+        stationY = stationY + 1;
+      }
       document.getElementById("yDisplay").innerHTML = stationY;
     } else if (e.keyCode == '40') {
       console.log("Down key!");
-      stationY = stationY - 1;
+      if (stationX != 0){
+        stationY = stationY - 1;
+      }
       document.getElementById("yDisplay").innerHTML = stationY;
     }
   }
@@ -177,18 +205,15 @@ function orientStation(x, y) {
 function stopOrientation() {
   document.onkeydown = console.log("Stopped"); //prevent arrow key presses from changing variables
   orientationWindow.hide(); //close window
-
-  if ((stationX < 160 && stationX > 120) && (stationY < 310 && stationY > 295)) {
+  if (visible == "Etheras" && thrusterDone == 0) {
     setTimeout(sendExtraMessage, 2000, messA10);
     setTimeout(messageStep, 5000, messT5, messT6, messA11);
-    visible = "Etheras";
     progress = 3;
+    thrusterDone = 1;
   }
-
-
 }
 
-//Toggle
+//Toggles
 function toggleFlicker() {
   console.log("Toggling flicker effect!");
   $('#toggleFlickerButton').toggleClass('buttonOff');
@@ -197,6 +222,19 @@ function toggleFlicker() {
   $('body').toggleClass('crtPause');
 }
 
+function toggleStatus(){
+  var statusHeight = $('#userStatus').css('height');
+  // console.log('toggling status!');
+  if (statusHeight == ('30px')){
+    $('#userStatus').css('height','auto');
+    // console.log("opening status!");
+  } else{
+    $('#userStatus').css('height','30px');
+    // console.log("closing status!");
+  }
+}
+
+//Phase changes
 function phase2Transition(){
   $('#overlay').fadeIn(1);
   setTimeout(overlayFadeOut, 2000);

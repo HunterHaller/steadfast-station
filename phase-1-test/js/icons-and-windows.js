@@ -3,15 +3,11 @@
 
 let termIcon = new Icon(650, 50, "trmnl.png", "TRMNL", "termIcon");
 let termWindow = new Window(400, 650, 70, 38, "TRMNL", '', "termWindow");
-//
-// let playerIcon = new Icon(650, 150, "msc.png", "MSC-PLYR", "playerIcon");
-// let playerWindow = new Window(160, 300, 138, 638, "MSC-PLYR", "<p>This is a new window!  Maybe one day it will play music or something...</p>", "playerWindow");
-//
-// let introIcon = new Icon( 650, 250, "text.png", "INTRO.TXT", "introIcon");
- let introWindow = new Window(450, 300, 50, 800, "INTRO.TXT", '<h1>Welcome, Technician!</h1><p>If this is your first time out among the stars, we\'re happy to have you! If not, you sure are here again and this file isn\'t for you!</p><p>Assuming you\'re near a OCW station, type <strong>"connect local"</strong> in your TRMNL to start interfacing with the station\'s AI.</p>', "introWindow");
+
+let introWindow = new Window(450, 300, 50, 800, "INTRO.TXT", '<h1>Welcome, Technician!</h1><p>If this is your first time out among the stars, we\'re happy to have you! If not, you sure are here again and this file isn\'t for you!</p><p>Assuming you\'re near a OCW station, type <strong>"connect local"</strong> in your TRMNL to start interfacing with the station\'s AI.</p>', "introWindow");
 
 let settingsIcon = new Icon( 650, 150, "gear.png", "STTNGS", "settingsIcon");
-let settingsWindow = new Window (400, 400, 180, 300, "STTNGS", "<button id='toggleFlickerButton' class='buttonOff' type='button' onClick='toggleFlicker()'>Flicker Reduction</button>", "settingsWindow");
+let settingsWindow = new Window ("auto", "auto", 180, 300, "STTNGS", "<button id='toggleFlickerButton' class='buttonOff' type='button' onClick='toggleFlicker()'>Flicker Reduction</button>", "settingsWindow");
 
 let filesIcon = new Icon (650, 250, "files.png", "FLS", "filesIcon");
 let filesWindow = new Window (500, 500, 90, 600, "FLS", "<h3>Local Files</h3><p onClick='makeWindow(introWindow)'>intro.txt</p><p onClick = 'makeWindow(shipManifest)'>shipManifest.txt</p><p onClick = 'makeWindow(relevantInfo)'>relevantInfo.txt</p><p onClick='makeWindow(techCode)'>techCode.txt</p><h3>Station Files</h3><p></p>", "filesWindow");
@@ -22,7 +18,8 @@ let assistantLog = new Window (400, 500, 75, 750, "ASSIST-HINT LOG", '', "assist
 let readoutIcon = new Icon (650, 460, "text.png", "STATUS", "readoutIcon");
 let readoutWindow = new Window (180, 400, 80, 740, "STATUS", "<span>POWER: </span><span id='powerReadout'></span><br><span>COMMS: </span><span id='commsReadout'></span><br><span>POSITION: </span><span id='thrustersReadout'></span><br><span>RADAR: </span><span id='radarReadout'></span><br><span>WEAPONS: </span><span id='weaponsReadout'></span>", "readoutWindow");
 
-let orientationWindow = new Window (200, 158, 300, 400, "ORNTTN", "<p>X.<span id='xDisplay'></span></p><p>Y.<span id='yDisplay'></span></p><button id='exitButton' onClick='stopOrientation()'>STOP ORIENTATION</button>", "orientationWindow")
+let orientationWindow = new Window ("auto", 400, 300, 400, "ORNTTN", "<p>X.<span id='xDisplay'></span></p><p>Y.<span id='yDisplay'></span></p><p>Objects in view: <span id='visibleList'></span></p><div style='text-align: center;'><button id='exitButton' onClick='stopOrientation()'>STOP ORIENTATION</button></div>", "orientationWindow")
+
 let assistHint1 = new Window (550, 400, 145, 552, "ASSIST-HINT", "<p>Hey there!  I'm your virtual Assistant, here to guide you through the task of fixing up this OCW station.  Looks like you'll want to recharge the station's main power core first.  They usually get solar power, but this one's a little low still.  Type <strong>'power'</strong> to get started, and of course, use '?' to get extra info on useful commands!</p><p>PS: You'll also note that another window should have opened with a copy of this message in it.  That window will keep a log of all messages I send you in case you want to refer back to them later.  Find it again with the appropriate icon below!", "assistHint1");
 let assistHint2 = new Window (380, 400, 245, 552, "ASSIST-HINT", "<p>Great work!  This station will be functional for months to come now.</p><p>If you go 'back' and type <strong>'systems'</strong>, you'll see a list of other station components you need to attend to.  I'll also throw up a readout that shows which systems are fully functional so you can track your progress!  And of course, I'll still be around to help out when you need me.</p>", "assistHint2");
 let assistHint3 = new Window (480, 400, 245, 552, "ASSIST-HINT", "<p>Let's check out the station-to-ground communications system.  Looks like it's a bit out of order, so the station can't currently receive messages from the Rev tower below.  I suspect the last time the station shot something down, the resonant frequencies from the missiles scrambled things.  This has been known to happen, though it means the station's operative AI was being a bit careless.</p><p>As always, use '?' to useful info, and work towards reaching the tower's frequency!", "assistHint3");

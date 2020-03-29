@@ -64,6 +64,7 @@ class Window { //includes terminal code!
               this.echo("Succesfully connected to local station!");
               setTimeout(messageStep, 2000, messT1, messT2, messA1);
               document.getElementById("chatTopText").innerHTML = "AI COMMS - ANTNNS";
+              $('#userStatus').html('USR: Tech535<br>Connected station: STDFST<br>Signal strength: Strong');
               localConnect = 1;
               // localStorage.localConnect = 1;
               console.log("localStorage.localConnect = " + localStorage.localConnect);
@@ -83,7 +84,7 @@ class Window { //includes terminal code!
         },
         commit: function(thing) {
           if (thing == "die") {
-            while (1 == 1) {
+            while (1) {
               console.log("YOU BE DYIN");
             }
           }
@@ -120,11 +121,11 @@ class Window { //includes terminal code!
         "?": function() { //list available commands
           this.echo("\nTRMNL is a command input point that allows you, the Technician, to input \ncommands relating to your ship as well as interfacing with nearby OCW \nstations. You can use it to give commands relating to the computing device \nitself, perform actions on nearby stations, and more!\n");
           this.echo("AVAILABLE COMMANDS:");
+          this.echo("- clear: Clears the TRMNL screen");
           this.echo("- systems: Lists all available systems that can be worked on");
           this.echo("- connect [thing]: Connect to thing");
           this.echo("- disconnect [thing]: Disconnect from thing");
-          this.echo("- ?: You know what this does, silly! Its info changes when working with different systems though, so try it in other areas!");
-          this.echo("- clear: Clears the TRMNL screen");
+          this.echo("- ?: You know what this does, silly! The info changes when working with different systems though, so try it in other areas!");
         },
         power: function() {
           if (localConnect == 0) {
@@ -158,33 +159,44 @@ class Window { //includes terminal code!
                       document.getElementById("weaponsReadout").innerHTML = missilesReady + " missiles ready";
 
                       if (powerCapacity < 100) {
-                        $("#powerReadout").css("color", "red");
+                        $("#powerReadout").css("color", "orange");
                       } else {
                         $("#powerReadout").css("color", "green");
                       }
 
                       if (currentCommsStatus == "Connected to Revulend Tower") {
                         $("#commsReadout").css("color", "green");
-                      } else {
+                      } else if (commsDestroyed == 1){
                         $("#commsReadout").css("color", "red");
-                      }
-
-                      if (visible == "No objects") {
-                        $("#thrustersReadout").css("color", "red");
-                      } else if (visible == "Etheras") {
-                        $("#thrustersReadout").css("color", "green");
-                      }
-
-                      if (dishDegrees == "128") {
-                        $("#radarReadout").css("color", "green");
+                        $("#commsReadout").html("CATASTROPHIC FAILURE");
                       } else {
+                        $("#commsReadout").css("color", "orange");
+                      }
+
+                      if (visible == "Etheras") {
+                        $("#thrustersReadout").css("color", "green");
+                      } else if (visible == "No objects") {
+                        $("#thrustersReadout").css("color", "red");
+                      } else{
+                        $("#thrustersReadout").css("color", "orange");
+                      }
+
+                      if (dishDegrees == "128" && radarDestroyed == 0) {
+                        $("#radarReadout").css("color", "green");
+                      } else if(radarDestroyed == 1) {
                         $("#radarReadout").css("color", "red");
+                        $("#radarReadout").html("CATASTROPHIC FAILURE");
+                      } else {
+                        $("#radarReadout").css("color", "orange");
                       }
 
                       if (missilesReady == "10") {
                         $("#weaponsReadout").css("color", "green");
-                      } else {
+                      } else if (weaponsStatus == "CATASTROPHIC FAILURE") {
                         $("#weaponsReadout").css("color", "red");
+                        $("#weaponsReadout").html("CATASTROPHIC FAILURE");
+                      } else {
+                        $("#weaponsReadout").css("color", "orange");
                       }
                     }, 0);
                   } else {
@@ -252,21 +264,35 @@ class Window { //includes terminal code!
                     newFreq = newFreq.substr(1);
                     console.log("...now " + newFreq);
                   }
-                  this.echo("Station now broadcasting to frequency " + newFreq);
-                  currentFrequency = newFreq;
-                  if (currentFrequency == "RT.421.890") {
-                    currentCommsStatus = "Connected to Revulend Tower";
-                    progress = 2;
-                    if (firstConnection == 0) {
-                      //First time successful,
-                      setTimeout(messageStep, 2000, messT3, messT4, messA7);
-                      firstConnection = 1; //stop from sending this message more than once
+                  if (newFreq == "CW.499.289"){
+                    if (phase2 == 0) {
+                      this.error("Can't attune station to its own frequency without MASTER privileges!");
+                    } else {
+                      currentFrequency = newFreq;
+                      this.echo("Station now broadcasting to frequency " + newFreq);
+                      currentCommsStatus = 'Connected to OCW station "STDFST"';
+                      setTimeout(this.error, 1000, "!!Comms feedback detected!!");
+                      setTimeout(this.error, 2000, "CRITICAL ERROR: Comms system experienced a major malfunction due to excess\nsignal feedback, please replace system as soon as possible!");
+                      commsDestroyed = 1;
+                      $('#userStatus').html('USR: Tech535<br>Connected station: STDFST<br>Signal strength: Weak');
                     }
+                  } else {
+                    this.echo("Station now broadcasting to frequency " + newFreq);
+                    currentFrequency = newFreq;
+                    if (currentFrequency == "RT.421.890") {
+                      currentCommsStatus = "Connected to Revulend Tower";
+                      progress = 2;
+                      if (firstConnection == 0) {
+                        //First time successful,
+                        setTimeout(messageStep, 2000, messT3, messT4, messA7);
+                        firstConnection = 1; //stop from sending this message more than once
+                      }
 
-                  } else if (currentFrequency == "CW.520.678") {
-                    currentCommsStatus = 'Connected to OCW station "HDSTRNG"';
-                  } else if (currentFrequency == "CW.238.030") {
-                    currentCommsStatus = 'Connected to OCW station "PGHDD"';
+                    } else if (currentFrequency == "CW.520.678") {
+                      currentCommsStatus = 'Connected to OCW station "HDSTRNG"';
+                    } else if (currentFrequency == "CW.238.030") {
+                      currentCommsStatus = 'Connected to OCW station "PGHDD"';
+                    }
                   }
                 }
               } else if (cmd == '?') {
@@ -341,12 +367,12 @@ class Window { //includes terminal code!
                 this.echo("- back: Move back up to home directory")
                 this.echo("- clear: Clears the TRMNL screen");
                 this.echo("- detect angle [thing]: Where thing is a spatial landmark, gives the \nappropriate angle of thing in degrees relative to the station.  Useful for \npositioning radar dish. (Don't specify a thing to get a list of\navaiable objects!)")
-                this.echo("- rotate [#]: Rotates the radar dish to the specified number in degrees")
+                this.echo("- rotate [#]: Rotates the radar dish to the specified number in degrees. The\ndish has a rotational range of 180 degrees (MASTER privileges allow for a greater range of motion to be entered, but this is not recommended as this may\ndamage the dish.)")
                 this.echo("- status: Display status of radar dish")
               } else if (cmd == 'detect angle') {
                 this.echo("Please specify an object!");
                 this.echo("Available objects include:");
-                this.echo("- Etheras (world station)\n- PGHDD Station\n- HDSTRNG Station")
+                this.echo("- Etheras\n- PGHDD Station\n- HDSTRNG Station")
               } else if (cmd == 'detect angle Etheras') {
                 if (etherasDetected == 0) {
                   etherasDetected = 1;
@@ -368,11 +394,24 @@ class Window { //includes terminal code!
                     console.log("...now " + newDegrees);
                   }
                   if (newDegrees != dishDegrees) { //new angle
-                    this.echo("Rotating dish to " + newDegrees + " degrees...");
-                    dishDegrees = newDegrees;
-                    if (dishDegrees == "128" && dishQuestioned == 0) {
-                      setTimeout(messageStep, 1300, messT7, messT8, messA14); //REDO THESE
-                      dishQuestioned = 1;
+                    if (newDegrees > 180 || newDegrees < 0){
+                      if (phase2 == 1){
+                        this.echo("Rotating dish to " + newDegrees + " degrees...");
+                        dishDegrees = newDegrees;
+                        setTimeout(this.error, 2000, "!!Radar dish over-rotated!!");
+                        setTimeout(this.error, 4000, "Radar dish disconnected due to over-rotation, please attach replacement dish\nas soon as possible!");
+                        radarDestroyed = 1;
+                        radarStatus = "CATASTROPHIC FAILURE";
+                      } else {
+                        this.error("Requested degree out of range!!");
+                      }
+                    } else{
+                      this.echo("Rotating dish to " + newDegrees + " degrees...");
+                      dishDegrees = newDegrees;
+                      if (dishDegrees == "128" && dishQuestioned == 0 && phase2 == 0) {
+                        setTimeout(messageStep, 1300, messT7, messT8, messA14); //REDO THESE
+                        dishQuestioned = 1;
+                      }
                     }
                   } else { //number already present
                     this.error("Dish already at that angle!");
@@ -381,7 +420,7 @@ class Window { //includes terminal code!
               } else if (cmd == 'status') {
                 this.echo("--------------------");
                 this.echo("Rotation: " + dishDegrees + " degrees");
-                this.echo("Functions: Normal");
+                this.echo("Functions: " + radarStatus);
                 this.echo("--------------------");
               } else {
                 this.error("Command invalid!");
@@ -414,11 +453,12 @@ class Window { //includes terminal code!
                 this.echo("- clear: Clears the TRMNL screen");
                 this.echo("- status: Display status of radar dish")
                 this.echo("- recharge [plasma cells]: Recharges station weapon systems from supplied cells as designated, where [plasma cells] is the serial number of the cells being \ndrawn from.")
+                this.echo("- fire: Fires on current target. This operation can only be performed by the station's AI unless user has invoked MASTER privileges.");
               } else if (cmd == 'status') {
                 this.echo("--------------------");
                 this.echo("Anti-Air Plasma Missiles Ready: " + missilesReady);
                 this.echo("Firing Bay: " + firingBay);
-                this.echo("Functions: Normal");
+                this.echo("Functions: " + weaponsStatus);
                 this.echo("--------------------");
               } else if (cmd.includes("recharge")) {
                 if (missilesReady == 10) {
@@ -456,6 +496,42 @@ class Window { //includes terminal code!
                 } else if (firingBay == "Open") {
                   this.echo("Closing firing bay doors...");
                   firingBay = "Closed";
+                }
+              } else if (cmd == "fire"){
+                if (weaponsDestroyed == 1){
+                  this.error("Weapons systems offline due to catastrophic failure!");
+                } else if (missilesReady == 0){
+                  this.error("No missiles loaded!");
+                } else {
+                  if (firingBay == "Closed" && phase2 == 0){
+                    this.error("Cannot fire while firing bay is closed!");
+                  } else if (phase2 == 0){
+                    this.error("Only AI can fire missiles!!");
+                  } else if (phase2 == 1 && firingBay == "Open" && missilesReady > 0){
+                    this.echo("FIRING MISSILE ON TARGET: empty");
+                    setTimeout(this.echo, 4000, "Missiles did not reach target");
+                    missilesReady--;
+                  } else if (phase2 == 1 && firingBay == "Closed" && missilesReady > 0){
+                    this.echo("Fire missile while firing bay is closed? (y/n)");
+                    this.push(function(yn) {
+                      if (yn == "y" || yn == "Y"){
+                        this.echo("FIRING MISSILE ON TARGET: empty");
+                        setTimeout(this.error, 500, "!!EXPLOSION detected in firing bay!!");
+                        setTimeout(this.error, 2000, "!!OPEN FLAME detected in firing bay!!");
+                        setTimeout(this.error, 5000, "CATASTROPHIC FAILURE, firing bay destroyed! Replace as soon as possible!");
+                        weaponsDestroyed = 1;
+                        missilesReady--;
+                        weaponsStatus = "CATASTROPHIC FAILURE";
+                        this.pop();
+                      } else {
+                        this.echo("Canceling firing procedure...");
+                        this.pop();
+                      }
+                    }, {
+                      prompt: "> ",
+                      name: "yn"
+                    });
+                  }
                 }
               } else {
                 this.error("Command invalid!");

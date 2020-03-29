@@ -40,9 +40,9 @@ h1 {
   line-height: 25px;
 }
 
-#usrID {
-  padding-left: 10px;
-}
+// #usrID {
+//   padding-left: 10px;
+// }
 
 #netIcon {
   float: right;
@@ -60,37 +60,25 @@ h1 {
   float: right;
 }
 
-/*Top bar things*/
-
-#topBar {
-  background-color: white;
+#userStatus{
+  top: 0;
+  left: 0;
+  margin: 0;
+  padding: 0;
   height: 30px;
-  font-size: 16pt;
+  width: auto;
   padding-top: 5px;
-}
-
-.bar {
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 5px;
   line-height: 25px;
-}
-
-#usrID {
-  padding-left: 10px;
-}
-
-#netIcon {
-  float: right;
-  height: 22px;
-  padding-right: 10px;
-}
-
-#time {
-  float: right;
-  padding-left: 10px;
-  padding-right: 10px;
-}
-
-#date {
-  float: right;
+  font-size: 16pt;
+  color: black;
+  background-color: white;
+  position: absolute;
+  &:hover{
+    background-color: lightgray;
+  }
 }
 
 /*Icon things*/
@@ -203,7 +191,7 @@ h1 {
   right: 40px;
   bottom: 0;
   width: 330px;
-  height: 500px;
+  height: 40px;
   box-shadow: 6px 6px 15px;
   transition: height 0.6s ease-in-out;
 }
@@ -278,8 +266,15 @@ h1 {
 
 //Setting styles
 
-button{
+button {
   font-size: 15pt;
+  background-color: gray;
+  border: none;
+  color: black;
+  font-size: 20pt;
+  &:hover{
+    background-color: lightgray;
+  }
 }
 
 .buttonOff {

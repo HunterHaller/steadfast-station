@@ -70,8 +70,11 @@ function makeWindow(Window) {
       var logTime = document.createElement('span');
       logTime.innerHTML = time;
 
-      assistantLogBody.appendChild(logTime);
-      assistantLogBody.appendChild(newLog);
+      $('#assistantLogBody').prepend(newLog);
+      $('#assistantLogBody').prepend(logTime);
+
+      // assistantLogBody.appendChild(newLog);
+      // assistantLogBody.appendChild(logTime);
     }
     // $(function() {
     //   $("#" + Window.winID + "Body").load(Window.content);

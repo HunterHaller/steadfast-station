@@ -1,6 +1,6 @@
 function sendExtraMessage(Message) { //for sending extra AI messages only, when they come in groups
 
-  if (toggleChatVar == 0) { //if chat is minimized, open it back up!
+  if ($("#chatBox").css("height") < "500px") { //if chat is minimized, open it back up!
     console.log("Chat is closed, opening...");
     toggleChat();
   }
@@ -116,7 +116,7 @@ function messageStep(a, b, c) {
   //a and b are always player messages
   //c is always an AI message
 
-  if (toggleChatVar == 0) { //if chat is minimized, open it back up!
+  if ($("#chatBox").css("height") < "500px") { //if chat is minimized, open it back up!
     console.log("Chat is closed, opening...");
     toggleChat();
   }
