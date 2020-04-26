@@ -1,0 +1,582 @@
+/*FONTS*/
+@import url('https://fonts.googleapis.com/css?family=Bebas+Neue|Roboto|Odibee+Sans&display=swap');
+/*STYLES*/
+body {
+  background-image: url("../img/background6.jpg");
+  background-size: cover;
+  padding: 0;
+  margin: 0;
+  max-height: 1080px;
+  overflow: hidden;
+}
+
+* {
+  cursor: url('../img/cursor.cur'), auto;
+  box-sizing: border-box;
+  font-family: $main-font;
+}
+
+img {
+  z-index: -1;
+}
+
+p,
+strong {
+  font-size: 15pt;
+  font-family: $main-font;
+  line-height: 20pt;
+}
+
+a {
+  cursor: url("../img/click.cur"), auto;
+}
+
+.link {
+  cursor: url("../img/click.cur"), auto;
+}
+
+h1 {
+  font-family: $header-font;
+  font-size: 30pt;
+}
+
+h3 {
+  font-family: $header-font;
+  font-size: 25pt;
+  line-height: 5pt;
+}
+/*Top bar things*/
+#topBar {
+  background-color: white;
+  height: 30px;
+  font-size: 16pt;
+  padding-top: 5px;
+}
+
+.bar {
+  font-family: $header-font;
+  line-height: 25px;
+}
+// #usrID {
+//   padding-left: 10px;
+// }
+
+#netIcon {
+  float: right;
+  height: 22px;
+  padding-right: 10px;
+}
+
+#time {
+  float: right;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+#date {
+  float: right;
+}
+
+#userStatus {
+  top: 0;
+  left: 0;
+  margin: 0;
+  padding: 0;
+  height: 30px;
+  width: auto;
+  padding: 5px 10px;
+  line-height: 25px;
+  font-size: 16pt;
+  color: black;
+  background-color: white;
+  position: absolute;
+  overflow: hidden;
+  font-family: $header-font;
+
+  &:hover {
+    background-color: lightgray;
+  }
+
+  span {
+    font-family: $header-font;
+  }
+}
+/*Icon things*/
+.iconText {
+  padding: 0;
+  margin: 0;
+  color: white;
+  font-size: 16pt;
+  font-family: $header-font;
+  font-weight: bold;
+}
+
+.icon {
+  position: absolute;
+  z-index: -1;
+  bottom: 20px;
+  text-align: center;
+}
+
+.iconImg {
+  padding-bottom: 0;
+  margin-bottom: 0;
+  height: 60px;
+}
+
+.settingsIcon img {
+  filter: invert(100%);
+}
+
+@keyframes glowing {
+0% {box-shadow: 0 0 3px 3px lightblue; }
+50% {box-shadow: 0 0 10px 10px lightblue; }
+100% {box-shadow: 0 0 3px 3px lightblue; }
+}
+
+.glowIcon {
+  animation: glowing 1500ms infinite;
+  //https://www.w3docs.com/snippets/css/how-to-create-flashing-glowing-button-using-animation-in-css3.html
+}
+
+/*Window things*/
+
+.banner {
+  padding-left: 9px;
+  font-size: 15pt;
+}
+
+.dot {
+  height: 12px;
+  width: 12px;
+  background-color: white;
+  border-radius: 50%;
+  margin-left: 5px;
+  display: inline-block;
+  cursor: url('../img/cursor.cur'), auto;
+}
+
+.windowHeader {
+  padding: 8px;
+  background: darkgray;
+  cursor: url('../img/move.cur'), move;
+  overflow: hidden;
+}
+
+#termWindowBody {
+  padding: 10px;
+  cursor: url('../img/text.cur'), auto;
+  background-color: black;
+  font-size: 30pt;
+  --color: lightblue;
+  --background: black;
+  --size: 1.2;
+}
+
+.content {
+  padding: 10px;
+  background-color: white;
+  color: black;
+  font-size: 20pt;
+  overflow: auto;
+}
+
+.window {
+  position: absolute;
+  display: block;
+  border: 6px solid darkgray;
+  box-shadow: 6px 6px 15px;
+}
+
+.banner {
+  font-family: $header-font;
+  padding-left: 9px;
+  font-size: 15pt;
+}
+
+.noselect {
+  -webkit-touch-callout: none;
+  /* iOS Safari */
+  -webkit-user-select: none;
+  /* Safari */
+  -khtml-user-select: none;
+  /* Konqueror HTML */
+  -moz-user-select: none;
+  /* Old versions of Firefox */
+  -ms-user-select: none;
+  /* Internet Explorer/Edge */
+  user-select: none;
+  /* Non-prefixed version, currently
+                                  supported by Chrome, Opera and Firefox */
+}
+
+.focused {
+  border: 6px solid lightblue;
+}
+
+.assistantMessage p {
+  line-height: 35px;
+}
+/*Chat things*/
+#chatBox {
+  position: absolute;
+  background-color: white;
+  right: 40px;
+  bottom: 0;
+  width: 330px;
+  height: 520px;
+  box-shadow: 6px 6px 15px;
+  transition: height 0.6s ease-in-out;
+}
+
+#chatTop {
+  background-color: darkgray;
+  height: 40px;
+}
+
+#chatTopText {
+  font-size: 23pt;
+  line-height: 45px;
+  padding-left: 20px;
+  font-family: $header-font;
+}
+
+#chatBody {
+  height: 360px;
+  background-color: white;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
+#chatBottom {
+  height: 120px;
+  background-color: darkgray;
+  bottom: 0;
+  z-index: -1;
+  display: flex;
+  justify-content: space-evenly;
+  flex-flow: row wrap;
+}
+
+.chatOption {
+  background-color: black;
+  margin-bottom: 10px;
+  width: 90%;
+  height: 40px;
+  color: white;
+  text-align: center;
+
+  p {
+    font-size: 12pt;
+    line-height: 40px;
+    padding: 0;
+    margin: 0;
+  }
+}
+
+#opt1 {
+  margin-top: 10px;
+}
+
+.techMessage {
+  @include basicMessage;
+  float: right;
+  background-color: gray;
+  margin-left: 60px; //prevents horizontal stacking
+}
+
+.stationMessage {
+  @include basicMessage;
+  float: left;
+  text-align: left;
+  background-color: cyan;
+}
+
+.assistantChat {
+  @include basicMessage;
+  float: left;
+  text-align: left;
+  background-color: red;
+}
+//Setting styles
+button {
+  font-size: 15pt;
+  background-color: gray;
+  border: none;
+  color: black;
+  font-size: 20pt;
+
+  &:hover {
+    background-color: lightgray;
+  }
+}
+
+.buttonOff {
+  background-color: gray;
+  border: none;
+  color: black;
+  font-size: 20pt;
+}
+
+.buttonOn {
+  background-color: lightgreen;
+  border: none;
+  color: black;
+  font-size: 20pt;
+}
+//Files styles
+#filesWindowBody {
+  p {
+    // cursor: pointer;
+    transition: color 0.3s;
+
+    &:hover {
+      color: magenta;
+    }
+
+    &:active {
+      color: lightblue;
+    }
+  }
+}
+// Transition css
+
+#overlay {
+  background: black;
+  display: none;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 99998;
+}
+
+//https://codepen.io/cipherbeta/pen/YLdVjw
+
+/* Creates an animation with 20 steaps. For each step, it calculates
+a percentage for the specific step. It then generates a random clip
+box to be used for the random glitch effect. Also adds a very subtle
+skew to change the 'thickness' of the glitch.*/
+@keyframes glitch-anim {
+  $steps: 20;
+  @for $i from 0 through $steps {
+    #{percentage($i*(1/$steps))} {
+      clip: rect(random(100)+px, 9999px, random(100)+px, 0);
+			transform: skew((random(100) / 100) + deg);
+    }
+  }
+}
+
+// Same deal, just duplicated for ultra randomness.
+@keyframes glitch-anim2 {
+  $steps: 20;
+  @for $i from 0 through $steps {
+    #{percentage($i*(1/$steps))} {
+      clip: rect(random(100)+px, 9999px, random(100)+px, 0);
+			transform: skew((random(100) / 100) + deg);
+    }
+  }
+}
+
+// Does the same deal as before, but now only skews. Used for main text.
+@keyframes glitch-skew {
+  $steps: 10;
+  @for $i from 0 through $steps {
+    #{percentage($i*(1/$steps))} {
+      transform: skew((random(10) - 5) + deg);
+    }
+  }
+}
+
+.glitch {
+  text-align: center;
+	position: relative;
+	color: black;
+	font-size: 80pt;
+  line-height: 200pt;
+	/* Animation provies a slight random skew. Check bottom of doc
+	for more information on how to random skew. */
+	animation: glitch-skew 1s infinite linear alternate-reverse;
+
+	// Creates a copy before our text.
+	&::before{
+		// Duplicates our text with the mixin.
+		@include glitchCopy;
+		// Scoots text slightly to the left for the color offset.
+		left: 2px;
+		// Creates the color 'shadow' that happens on the glitch.
+		text-shadow: -2px 0 #ff00c1;
+		/* Creates an initial clip for our glitch. This works in
+		a typical top,right,bottom,left fashion and creates a mask
+		to only show a certain part of the glitch at a time. */
+		clip: rect(44px, 450px, 56px, 0);
+		/* Runs our glitch-anim defined below to run in a 5s loop, infinitely,
+		with an alternating animation to keep things fresh. */
+		animation: glitch-anim 5s infinite linear alternate-reverse;
+	}
+
+	// Creates a copy after our text. Note comments from ::before.
+	&::after {
+		@include glitchCopy;
+		left: -2px;
+		text-shadow: -2px 0 #00fff9, 2px 2px #ff00c1;
+		animation: glitch-anim2 1s infinite linear alternate-reverse;
+	}
+}
+
+
+//http://aleclownes.com/2017/02/01/crt-display.html
+@keyframes flicker {
+  0% {
+    opacity: 0.27861;
+  }
+
+  5% {
+    opacity: 0.34769;
+  }
+
+  10% {
+    opacity: 0.23604;
+  }
+
+  15% {
+    opacity: 0.90626;
+  }
+
+  20% {
+    opacity: 0.18128;
+  }
+
+  25% {
+    opacity: 0.83891;
+  }
+
+  30% {
+    opacity: 0.65583;
+  }
+
+  35% {
+    opacity: 0.67807;
+  }
+
+  40% {
+    opacity: 0.26559;
+  }
+
+  45% {
+    opacity: 0.84693;
+  }
+
+  50% {
+    opacity: 0.96019;
+  }
+
+  55% {
+    opacity: 0.08594;
+  }
+
+  60% {
+    opacity: 0.20313;
+  }
+
+  65% {
+    opacity: 0.71988;
+  }
+
+  70% {
+    opacity: 0.53455;
+  }
+
+  75% {
+    opacity: 0.37288;
+  }
+
+  80% {
+    opacity: 0.71428;
+  }
+
+  85% {
+    opacity: 0.70419;
+  }
+
+  90% {
+    opacity: 0.7003;
+  }
+
+  95% {
+    opacity: 0.36108;
+  }
+
+  100% {
+    opacity: 0.24387;
+  }
+}
+
+.crt::after {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: rgba(18, 16, 16, 0.1);
+  opacity: 0;
+  z-index: 2;
+  pointer-events: none;
+  animation: flicker 0.15s infinite;
+  animation-play-state: running;
+}
+
+.crt::before {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+  z-index: 2;
+  background-size: 100% 2px, 3px 100%;
+  pointer-events: none;
+}
+
+.crt {
+  animation: textShadow 1.6s infinite;
+}
+
+.crtPause::before {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+  z-index: 2;
+  background-size: 100% 2px, 3px 100%;
+  pointer-events: none;
+}
+
+.crtPause::after {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: rgba(18, 16, 16, 0.1);
+  opacity: 0;
+  z-index: 2;
+  pointer-events: none;
+  animation: flicker 0.15s infinite;
+  animation-play-state: paused;
+}
+
+.crtPause {
+  animation: textShadow 1.6s infinite;
+}

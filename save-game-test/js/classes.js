@@ -150,7 +150,7 @@ class Window { //includes terminal code!
           this.echo("- systems: Lists all available systems that can be worked on");
           this.echo("- connect [thing]: Connect to thing");
           this.echo("- disconnect [thing]: Disconnect from thing");
-          this.echo("- ?: You know what this does, silly! The info changes when working with different systems though, so try it in other areas!");
+          this.echo("- ?: You know what this does, silly! The info changes when working with\ndifferent systems though, so try it in other areas!");
         },
         power: function() {
           if (localStorage.localConnect == 0) {
