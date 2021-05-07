@@ -1,9 +1,3 @@
-//STUFF TO FIX
-// - Win condition check
-// - Final window styling
-// - Sound effects
-// - Break long messages up into smaller messages
-
 localStorage.gameStarted;
 
 var stationX = 84;
